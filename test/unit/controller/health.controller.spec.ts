@@ -96,24 +96,24 @@ describe('HealthController', () => {
       const result = await healthController.check();
       expect(result).toEqual(mockHealthObject);
     });
-    // it('should call health.check with two indicators', async () => {
-    //   await healthController.check();
+    it('should call health.check with two indicators', async () => {
+      await healthController.check();
 
-    //   expect(healthCheckService.check).toHaveBeenCalledWith([
-    //     expect.any(Function),
-    //     expect.any(Function),
-    //   ]);
-    // });
+      expect(healthCheckService.check).toHaveBeenCalledWith([
+        expect.any(Function),
+        expect.any(Function),
+      ]);
+    });
     it('should call db.pingCheck with "database"', async () => {
       await healthController.check();
-      const [indicators] = healthCheckService.check.mock.calls[0];
-      await indicators[0]();
+      const [database] = healthCheckService.check.mock.calls[0];
+      await database[0]();
       expect(db.pingCheck).toHaveBeenCalledWith('database');
     });
     it('should call redis.pingCheck with "redis"', async () => {
       await healthController.check();
-      const [indicators] = healthCheckService.check.mock.calls[0];
-      await indicators[1]();
+      const [redisIndicator] = healthCheckService.check.mock.calls[0];
+      await redisIndicator[1]();
       expect(redis.pingCheck).toHaveBeenCalledWith('redis', {
         transport: 1,
         options: {
