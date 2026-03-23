@@ -1,5 +1,5 @@
-import { IUserClientConsentRepository } from '../../../../src/repository/user-client-consent.repository';
-import { IUserClientConsentService } from '../../../../src/service/user-client-consent.service';
+import { IUserClientConsentRepository } from '../../../src/repository/user-client-consent.repository';
+import { IUserClientConsentService } from '../../../src/service/user-client-consent.service';
 
 export const mockUserClientConsentRespository: IUserClientConsentRepository = {
   create: jest.fn(),

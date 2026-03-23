@@ -1,5 +1,5 @@
-import { IUserRepository } from '../../../../src/repository/user.repository';
-import { IUserService } from '../../../../src/service/user.service';
+import { IUserRepository } from '../../../src/repository/user.repository';
+import { IUserService } from '../../../src/service/user.service';
 
 export const mockUserRepository: IUserRepository = {
   create: jest.fn(),

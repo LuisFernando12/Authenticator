@@ -1,4 +1,4 @@
-import { ITokenService } from '../../../../src/service/token.service';
+import { ITokenService } from '../../../src/service/token.service';
 
 export const mockTokenService: ITokenService & {
   generateExpireAt: () => number;

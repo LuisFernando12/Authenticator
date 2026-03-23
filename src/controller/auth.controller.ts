@@ -13,12 +13,11 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import { Response } from 'express';
 import { NewTokenToActiveEmailDTO } from '../dto/new-token.dto';
 
 export interface IAuthController {
   login(data: LoginDTO): Promise<any>;
-  verifyEmail(token: string, res: Response): void;
+  verifyEmail(token: string): void;
   resetPassword(data: { email: string }): Promise<{ message: string }>;
   newPassword(data: NewPasswordDTO): void;
   sendNewTokenToEmailActive({

@@ -1,4 +1,4 @@
-import { IEmailService } from '../../../../src/service/email.service';
+import { IEmailService } from '../../../src/service/email.service';
 
 export const mockEmailService: IEmailService = {
   sendActivationEmail: jest.fn(),

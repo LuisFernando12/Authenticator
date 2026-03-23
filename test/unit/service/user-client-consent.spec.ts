@@ -10,7 +10,7 @@ import {
   IUserClientConsentService,
   UserClientConsentService,
 } from '../../../src/service/user-client-consent.service';
-import { mockUserClientConsentRespository } from './mock/userClient.mock';
+import { mockUserClientConsentRespository } from '../mock/userClient.mock';
 
 describe('UserClientConsentService', () => {
   let userClientConsentService: IUserClientConsentService;

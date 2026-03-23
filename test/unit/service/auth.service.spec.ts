@@ -14,12 +14,12 @@ import { AuthService, IAuthService } from '../../../src/service/auth.service';
 import { EmailService } from '../../../src/service/email.service';
 import { RedisService } from '../../../src/service/redis.service';
 import { TokenService } from '../../../src/service/token.service';
-import { mockAppconfigEnvService } from './mock/appConfigEnv.mock';
-import { mockEmailService } from './mock/email.mock';
-import { mockAuthLogger, mockBaseLogger } from './mock/logger.mock';
-import { mockRedisService } from './mock/redis.mock';
-import { mockTokenService } from './mock/token.mock';
-import { mockUserRepository } from './mock/user.mock';
+import { mockAppconfigEnvService } from '../mock/appConfigEnv.mock';
+import { mockEmailService } from '../mock/email.mock';
+import { mockAuthLogger, mockBaseLogger } from '../mock/logger.mock';
+import { mockRedisService } from '../mock/redis.mock';
+import { mockTokenService } from '../mock/token.mock';
+import { mockUserRepository } from '../mock/user.mock';
 function encryptPassword(password: string): string {
   const salt = bcrypt.genSaltSync();
   return bcrypt.hashSync(password, salt);
@@ -258,7 +258,9 @@ describe('AuthService', () => {
         .fn()
         .mockResolvedValueOnce('OK');
       const result = await authService.sendNewTokenToEmailActive(email);
-      expect(result).toBe('OK');
+      expect(result).toEqual({
+        message: 'Success to send new token to email active',
+      });
     });
     it('should throw an error to send new token to email active with invalid user', async () => {
       mockUserRepository.findByEmail = jest.fn().mockResolvedValueOnce(null);

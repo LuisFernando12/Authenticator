@@ -1,7 +1,7 @@
 export const mockAppconfigEnvService = {
   secret: 'secret',
   clientSecretPepper: 'pepper',
-  redisURI: 'redis://localhost:6379',
+  redisURI: 'redis://:password@localhost:6379',
   serverSMTP: 'smtp.example.com',
   smtpPORT: 122,
   serverSMTPPassword: 'password',

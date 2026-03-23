@@ -1,5 +1,5 @@
-import { IClientRepository } from '../../../../src/repository/client.repository';
-import { IClientService } from '../../../../src/service/client.service';
+import { IClientRepository } from '../../../src/repository/client.repository';
+import { IClientService } from '../../../src/service/client.service';
 
 export const mockClientRepository: IClientRepository = {
   create: jest.fn(),

@@ -7,8 +7,11 @@ import {
   MicroserviceHealthIndicator,
   TypeOrmHealthIndicator,
 } from '@nestjs/terminus';
+export interface IHealthController {
+  check: () => Promise<any>;
+}
 @Controller('health')
-export class HealthController {
+export class HealthController implements IHealthController {
   constructor(
     private health: HealthCheckService,
     private db: TypeOrmHealthIndicator,

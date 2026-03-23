@@ -29,7 +29,7 @@ export class EmailService implements IEmailService {
         template: './activeAccount',
         context: {
           username,
-          activeUrl: `${this.configEnv.serviceURL}/?token=${token}`,
+          activeUrl: `${this.configEnv.serviceVerifyEmailURL}/?token=${token}`,
         },
       });
       if (mailerResponse.accepted.length === 0) {

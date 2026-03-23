@@ -6,7 +6,7 @@ import {
   EmailService,
   IEmailService,
 } from '../../../src/service/email.service';
-import { mockAppconfigEnvService } from './mock/appConfigEnv.mock';
+import { mockAppconfigEnvService } from '../mock/appConfigEnv.mock';
 
 describe('EmailService', () => {
   let emailService: IEmailService;
@@ -42,7 +42,7 @@ describe('EmailService', () => {
       template: './activeAccount',
       context: {
         username,
-        activeUrl: `${mockAppconfigEnvService.serviceURL}/?token=${token}`,
+        activeUrl: `${mockAppconfigEnvService.serviceVerifyEmailURL}/?token=${token}`,
       },
     };
     it('should send an activation email', async () => {

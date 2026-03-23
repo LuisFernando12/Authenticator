@@ -22,7 +22,7 @@ export interface IAuthService {
     code: number,
     email: string,
   ): Promise<{ message: string }>;
-  sendNewTokenToEmailActive(email: string): Promise<string>;
+  sendNewTokenToEmailActive(email: string): Promise<{ message: string }>;
 }
 @Injectable()
 export class AuthService implements IAuthService {
@@ -197,7 +197,7 @@ export class AuthService implements IAuthService {
     });
     return { message: 'Updated password' };
   }
-  async sendNewTokenToEmailActive(email: string): Promise<string> {
+  async sendNewTokenToEmailActive(email: string): Promise<{ message: string }> {
     this.authLogger.log('Starting method sendNewTokenToEmailActive', {
       context: 'AuthService method sendNewTokenToEmailActive',
     });
@@ -243,6 +243,6 @@ export class AuthService implements IAuthService {
     this.authLogger.log('Success to send new token to email active', {
       context: 'AuthService method sendNewTokenToEmailActive',
     });
-    return 'OK';
+    return { message: 'Success to send new token to email active' };
   }
 }

@@ -8,9 +8,9 @@ import { UserRepository } from '../../../src/repository/user.repository';
 import { EmailService } from '../../../src/service/email.service';
 import { TokenService } from '../../../src/service/token.service';
 import { UserService } from '../../../src/service/user.service';
-import { mockEmailService } from './mock/email.mock';
-import { mockTokenService } from './mock/token.mock';
-import { mockUserRepository } from './mock/user.mock';
+import { mockEmailService } from '../mock/email.mock';
+import { mockTokenService } from '../mock/token.mock';
+import { mockUserRepository } from '../mock/user.mock';
 
 describe('UserService', () => {
   let userService: UserService;

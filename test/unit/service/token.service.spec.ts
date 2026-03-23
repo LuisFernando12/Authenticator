@@ -15,8 +15,8 @@ import {
   ITokenService,
   TokenService,
 } from '../../../src/service/token.service';
-import { mockAuthLogger } from './mock/logger.mock';
-import { mockTokenService } from './mock/token.mock';
+import { mockAuthLogger } from '../mock/logger.mock';
+import { mockTokenService } from '../mock/token.mock';
 
 describe('TokenService', () => {
   let tokenService: ITokenService;

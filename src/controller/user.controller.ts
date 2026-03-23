@@ -16,9 +16,12 @@ export class UserController implements IUserController {
   @ApiResponse({ status: 409, description: 'User already exists' })
   @ApiResponse({ status: 500, description: 'Internal server error' })
   async register(@Body() user: UserDTO) {
-    await this.userService.register(user);
+    const response = await this.userService.register(user);
     return {
-      message: 'User created. Please verify your email to account active',
+      message:
+        response === 'OK'
+          ? 'User created. Please verify your email to account active!'
+          : `User created. Please verify your email to account active, if you have not received the email request it again!`,
     };
   }
 }

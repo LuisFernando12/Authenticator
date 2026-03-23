@@ -19,7 +19,9 @@ import {
 import { RevokeTokenDTO, TokenIntrospectDTO } from '../dto/token.dto';
 import { OauthService } from '../service/oauth.service';
 export interface IOauthController {
-  authorize(payloadOauthAuthorize: OauthAuthorizeDTO): Promise<{
+  authorize(
+    payloadOauthAuthorize: Omit<OauthAuthorizeDTO, 'oauthRequestId'>,
+  ): Promise<{
     url: string;
     statusCode: number;
   }>;
@@ -63,9 +65,10 @@ export class OauthController implements IOauthController {
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden' })
-  async token(@Body() payloadOauthCallback: OauthTokenDTO): Promise<any> {
-    return await this.oauthService.token(payloadOauthCallback);
+  async token(@Body() payloadOauthToken: OauthTokenDTO): Promise<any> {
+    return await this.oauthService.token(payloadOauthToken);
   }
+
   @Throttle({ default: { limit: 5, ttl: 60000 } })
   @Post('/login')
   @Redirect()

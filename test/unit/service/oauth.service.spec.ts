@@ -21,14 +21,14 @@ import { RedisService } from '../../../src/service/redis.service';
 import { TokenService } from '../../../src/service/token.service';
 import { UserClientConsentService } from '../../../src/service/user-client-consent.service';
 import { UserService } from '../../../src/service/user.service';
+import { mockAppconfigEnvService } from '../mock/appConfigEnv.mock';
+import { mockClientService } from '../mock/client.mock';
+import { mockAuthLogger, mockBaseLogger } from '../mock/logger.mock';
+import { mockRedisService } from '../mock/redis.mock';
+import { mockTokenService } from '../mock/token.mock';
+import { mockUserService } from '../mock/user.mock';
+import { mockUserClientConsentService } from '../mock/userClient.mock';
 import { IPayloadAuthRequest } from './../../../src/service/oauth.service';
-import { mockAppconfigEnvService } from './mock/appConfigEnv.mock';
-import { mockClientService } from './mock/client.mock';
-import { mockAuthLogger, mockBaseLogger } from './mock/logger.mock';
-import { mockRedisService } from './mock/redis.mock';
-import { mockTokenService } from './mock/token.mock';
-import { mockUserService } from './mock/user.mock';
-import { mockUserClientConsentService } from './mock/userClient.mock';
 
 describe('OauthService', () => {
   let oauthService: IOauthService;
