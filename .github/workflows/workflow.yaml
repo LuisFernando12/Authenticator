@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - develop
   pull_request:
     branches:
       - main
+      - develop
 
 jobs:
   continuous-integration-test:
@@ -37,3 +39,7 @@ jobs:
 
       - name: Run Test With Coverage
         run: pnpm test:cov
+      - name: Semantic Release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
