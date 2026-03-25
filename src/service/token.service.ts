@@ -140,7 +140,7 @@ export class TokenService implements ITokenService {
       return await this.jwtService.verifyAsync(token, {
         secret: this.appConfigEnvSevice.secret,
       });
-    } catch (error) {
+    } catch (_error) {
       return false;
     }
   }

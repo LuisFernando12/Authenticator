@@ -61,7 +61,7 @@ export class UserService implements IUserService {
   ): Promise<UserResponseDTO & { password: string }> {
     try {
       return await this.userRepository.findByEmail(email);
-    } catch (error) {
+    } catch (_error) {
       throw new InternalServerErrorException('Failure to find user');
     }
   }
