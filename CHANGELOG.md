@@ -1,3 +1,10 @@
+# [2.4.0-beta.2](https://github.com/LuisFernando12/Authenticator/compare/v2.4.0-beta.1...v2.4.0-beta.2) (2026-09-10)
+
+
+### Features
+
+* **auth:** enhance AuthGuard to include user retrieval from repository ([addf53d](https://github.com/LuisFernando12/Authenticator/commit/addf53d335f74a5a78a1ff68e42367b40d771e5d))
+
 # [2.4.0-beta.1](https://github.com/LuisFernando12/Authenticator/compare/v2.3.0...v2.4.0-beta.1) (2026-09-09)
 
 
