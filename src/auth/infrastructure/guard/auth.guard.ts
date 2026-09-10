@@ -33,12 +33,20 @@ export class AuthGuard implements CanActivate {
       const decoded = await this.jwtService.verifyAsync<TokenDecode>(token, {
         secret: process.env.SECRET,
       });
+      if (!decoded) {
+        throw new UnauthorizedException('Invalid token');
+      }
       const userDB = await this.userRepository.findByEmail(decoded.username);
       if (!userDB) {
         throw new UnauthorizedException('Unauthorized');
       }
 
-      request['user'] = { name: userDB.name, ...decoded };
+      request['user'] = {
+        name: userDB.name,
+        sub: userDB.id,
+        email: userDB.email,
+        createdAt: userDB.createdAt,
+      };
       return true;
     } catch {
       throw new UnauthorizedException('Invalid token');
