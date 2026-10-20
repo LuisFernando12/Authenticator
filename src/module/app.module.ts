@@ -11,6 +11,7 @@ import { AppConfigEnvService } from '../core/domain/service/app-config-env.servi
 import { AppConfigModule } from '../core/infrastructure/module/app-config.module';
 import { AuthenticatorLoggerModule } from '../core/infrastructure/module/auth-logger.module';
 import { HealthModule } from '../core/infrastructure/module/health.module';
+import { MFAModule } from '../mfa/infrastructure/module/mfa.module';
 import { OauthModule } from '../oauth/infrastructure/module/oauth.module';
 import { SecurityEventModule } from '../security-event/infrastructure/module/security-event.module';
 
@@ -57,6 +58,7 @@ import { SecurityEventModule } from '../security-event/infrastructure/module/sec
     HealthModule,
     AuthenticatorLoggerModule,
     SecurityEventModule,
+    MFAModule,
   ],
   providers: [
     {

@@ -2,12 +2,11 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { Request as RequestExpress } from 'express';
 export type RequestType = RequestExpress & {
   user: {
+    name: string;
+    email: string;
     sub: string;
     username: string;
-    scope?: string;
-    aud?: string;
-    iss?: string;
-    type?: 'access' | 'email_verification';
+    createdAt: Date;
   };
 };
 export const Request = createParamDecorator<RequestType>(

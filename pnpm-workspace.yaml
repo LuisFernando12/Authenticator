@@ -1,0 +1,9 @@
+allowBuilds:
+  '@nestjs/core': false
+  '@scarf/scarf': false
+  bcrypt: false
+  cpu-features: false
+  msgpackr-extract: false
+  protobufjs: false
+  ssh2: false
+  unrs-resolver: false

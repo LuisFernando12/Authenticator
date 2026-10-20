@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 
 import { ConsentEntity } from '../../../../consent/infrastructure/persistence/entity/consent.entity';
+import { MFAEntity } from '../../../../mfa/infrastructure/persistence/entity/mfa.entity';
 import { SessionEntity } from '../../../../session/infrastructure/persistence/entity/session.entity';
 import { TokenEntity } from '../../../../token/infrastructure/persistence/entity/token.entity';
 
@@ -34,6 +35,8 @@ export class UserEntity {
   createdAt: Date;
   @OneToMany(() => SessionEntity, (session) => session.user)
   sessions: SessionEntity[];
+  @OneToMany(() => MFAEntity, (mfa) => mfa.userId, { onDelete: 'CASCADE' })
+  mfa: MFAEntity[];
   @DeleteDateColumn({
     name: 'deleted_at',
     type: 'timestamp with time zone',

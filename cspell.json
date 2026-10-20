@@ -1,13 +1,26 @@
 {
   "version": "0.2",
-  "language": "en",
+  "language": "en, pt-BR",
+  "dictionaries": [
+    "pt-br"
+  ],
+  "ignorePaths": [
+    "dist",
+    "node_modules",
+    "coverage",
+    "*.lock"
+  ],
   // cspell disable to this word list
   "words": [
     "ativação",
+    "Bloqueio",
     "bullmq",
+    "conta",
+    "Desbloqueada",
     "Impls",
     "jwt",
     "loglevel",
+    "mfas",
     "nestjs",
     "Oauth",
     "PKCE",
@@ -15,8 +28,10 @@
     "redis",
     "senha",
     "typeorm",
-    "Bloqueio",
-    "conta",
-    "Desbloqueada"
+    "ITOTP",
+    "otpauth",
+    "TOTP",
+    "qrcode",
+    "Qrcode"
   ]
 }
