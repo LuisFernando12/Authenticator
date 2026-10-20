@@ -1,5 +1,5 @@
 import { HttpExceptionFilter } from '@/config/filters/http-exception.filter';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -27,9 +27,14 @@ async function bootstrap() {
     .setTitle('Authenticator API')
     .setDescription('API documentation for the Authenticator service')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, documentFactory());
+  const logger = new Logger('Swagger API Docs');
+  logger.log(
+    `Swagger API Docs available at http://localhost:${process.env.PORT || 3000}/api/docs`,
+  );
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();

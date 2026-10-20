@@ -1,162 +1,153 @@
-# [2.3.0](https://github.com/LuisFernando12/Authenticator/compare/v2.2.0...v2.3.0) (2026-08-21)
-
-
-### Bug Fixes
-
-* **email:** fixed start  log on sendBlockAccountEmailUseCase ([dfb2f0a](https://github.com/LuisFernando12/Authenticator/commit/dfb2f0a593e45fa999a7d1fe904cf370633628ed))
-* **email:** update subject line for unblock account email notification ([b2a98b7](https://github.com/LuisFernando12/Authenticator/commit/b2a98b7a9772f79088313ea7971353c660a0c72f))
+# [2.4.0-beta.3](https://github.com/LuisFernando12/Authenticator/compare/v2.4.0-beta.2...v2.4.0-beta.3) (2026-09-10)
 
 
 ### Features
 
-* **account:** implement account blocking and reactivation features with email notifications ([6bdb273](https://github.com/LuisFernando12/Authenticator/commit/6bdb273b2f41de007fb3be0f454ba1916a6e116c))
-* add account unblock functionality ([e5c7f2b](https://github.com/LuisFernando12/Authenticator/commit/e5c7f2b3c61bda4ecb66d1de8adee9fd9d8760d6))
-* **auth:** add failed login attempt tracking and security event logging ([31fd351](https://github.com/LuisFernando12/Authenticator/commit/31fd351081352e109c9547ea4cb2466f3a52d5f0))
-* **docs:** update email notification section and add account unblock endpoint in README ([2079c50](https://github.com/LuisFernando12/Authenticator/commit/2079c5075c968579f100be36a8260c9e1d31160c))
-* **env:** update service URLs in .env.template for account management ([d2f3356](https://github.com/LuisFernando12/Authenticator/commit/d2f3356ce8d7eb3b03866c1208bb4ed3ed7ce4f6))
-* **security:** implement security event logging and add reason for logins ([5d7a055](https://github.com/LuisFernando12/Authenticator/commit/5d7a0551df5b56269b7f8f7e90e645fe00742d15))
-* **test:** resolved tests errors and add new use-case suite security-event ([9ed5532](https://github.com/LuisFernando12/Authenticator/commit/9ed5532a11c56a589499b6f0ad15b1cc130fbfde))
+* **auth:** improve token validation and user retrieval in AuthGuard ([4a18d78](https://github.com/LuisFernando12/Authenticator/commit/4a18d783aea6543e525ab3b763d293c258bbf588))
+* **user:** include user ID in the User object returned by findByEmail ([9af07e6](https://github.com/LuisFernando12/Authenticator/commit/9af07e6ea5a2a46443a2544f150f32e7ec7da34c))
+
+# [2.4.0-beta.2](https://github.com/LuisFernando12/Authenticator/compare/v2.4.0-beta.1...v2.4.0-beta.2) (2026-09-10)
+
+
+### Features
+
+* **auth:** enhance AuthGuard to include user retrieval from repository ([addf53d](https://github.com/LuisFernando12/Authenticator/commit/addf53d335f74a5a78a1ff68e42367b40d771e5d))
+
+# [2.4.0-beta.1](https://github.com/LuisFernando12/Authenticator/compare/v2.3.0...v2.4.0-beta.1) (2026-09-09)
+
+
+### Features
+
+* **auth:** implement AuthGuard and user retrieval endpoint; add request decorator ([f41ff9c](https://github.com/LuisFernando12/Authenticator/commit/f41ff9c4eecebba48e18eb1e64a45ae0e94df1e0))
+
+# [2.3.0-beta.5](https://github.com/LuisFernando12/Authenticator/compare/v2.3.0-beta.4...v2.3.0-beta.5) (2026-09-05)
+
+### Features
+
+- **auth:** implement AuthGuard and user retrieval endpoint; add request decorator ([f41ff9c](https://github.com/LuisFernando12/Authenticator/commit/f41ff9c4eecebba48e18eb1e64a45ae0e94df1e0))
 
 # [2.3.0-beta.4](https://github.com/LuisFernando12/Authenticator/compare/v2.3.0-beta.3...v2.3.0-beta.4) (2026-08-21)
 
-
 ### Features
 
-* **docs:** update email notification section and add account unblock endpoint in README ([2079c50](https://github.com/LuisFernando12/Authenticator/commit/2079c5075c968579f100be36a8260c9e1d31160c))
+- **docs:** update email notification section and add account unblock endpoint in README ([2079c50](https://github.com/LuisFernando12/Authenticator/commit/2079c5075c968579f100be36a8260c9e1d31160c))
 
 # [2.3.0-beta.3](https://github.com/LuisFernando12/Authenticator/compare/v2.3.0-beta.2...v2.3.0-beta.3) (2026-08-10)
 
-
 ### Features
 
-* **env:** update service URLs in .env.template for account management ([d2f3356](https://github.com/LuisFernando12/Authenticator/commit/d2f3356ce8d7eb3b03866c1208bb4ed3ed7ce4f6))
+- **env:** update service URLs in .env.template for account management ([d2f3356](https://github.com/LuisFernando12/Authenticator/commit/d2f3356ce8d7eb3b03866c1208bb4ed3ed7ce4f6))
 
 # [2.3.0-beta.2](https://github.com/LuisFernando12/Authenticator/compare/v2.3.0-beta.1...v2.3.0-beta.2) (2026-08-08)
 
-
 ### Bug Fixes
 
-* **email:** fixed start  log on sendBlockAccountEmailUseCase ([dfb2f0a](https://github.com/LuisFernando12/Authenticator/commit/dfb2f0a593e45fa999a7d1fe904cf370633628ed))
-* **email:** update subject line for unblock account email notification ([b2a98b7](https://github.com/LuisFernando12/Authenticator/commit/b2a98b7a9772f79088313ea7971353c660a0c72f))
-
+- **email:** fixed start log on sendBlockAccountEmailUseCase ([dfb2f0a](https://github.com/LuisFernando12/Authenticator/commit/dfb2f0a593e45fa999a7d1fe904cf370633628ed))
+- **email:** update subject line for unblock account email notification ([b2a98b7](https://github.com/LuisFernando12/Authenticator/commit/b2a98b7a9772f79088313ea7971353c660a0c72f))
 
 ### Features
 
-* **account:** implement account blocking and reactivation features with email notifications ([6bdb273](https://github.com/LuisFernando12/Authenticator/commit/6bdb273b2f41de007fb3be0f454ba1916a6e116c))
-* add account unblock functionality ([e5c7f2b](https://github.com/LuisFernando12/Authenticator/commit/e5c7f2b3c61bda4ecb66d1de8adee9fd9d8760d6))
+- **account:** implement account blocking and reactivation features with email notifications ([6bdb273](https://github.com/LuisFernando12/Authenticator/commit/6bdb273b2f41de007fb3be0f454ba1916a6e116c))
+- add account unblock functionality ([e5c7f2b](https://github.com/LuisFernando12/Authenticator/commit/e5c7f2b3c61bda4ecb66d1de8adee9fd9d8760d6))
 
 # [2.3.0-beta.1](https://github.com/LuisFernando12/Authenticator/compare/v2.2.0...v2.3.0-beta.1) (2026-08-04)
 
-
 ### Features
 
-* **auth:** add failed login attempt tracking and security event logging ([31fd351](https://github.com/LuisFernando12/Authenticator/commit/31fd351081352e109c9547ea4cb2466f3a52d5f0))
-* **security:** implement security event logging and add reason for logins ([5d7a055](https://github.com/LuisFernando12/Authenticator/commit/5d7a0551df5b56269b7f8f7e90e645fe00742d15))
-* **test:** resolved tests errors and add new use-case suite security-event ([9ed5532](https://github.com/LuisFernando12/Authenticator/commit/9ed5532a11c56a589499b6f0ad15b1cc130fbfde))
+- **auth:** add failed login attempt tracking and security event logging ([31fd351](https://github.com/LuisFernando12/Authenticator/commit/31fd351081352e109c9547ea4cb2466f3a52d5f0))
+- **security:** implement security event logging and add reason for logins ([5d7a055](https://github.com/LuisFernando12/Authenticator/commit/5d7a0551df5b56269b7f8f7e90e645fe00742d15))
+- **test:** resolved tests errors and add new use-case suite security-event ([9ed5532](https://github.com/LuisFernando12/Authenticator/commit/9ed5532a11c56a589499b6f0ad15b1cc130fbfde))
 
 # [2.2.0](https://github.com/LuisFernando12/Authenticator/compare/v2.1.0...v2.2.0) (2026-07-27)
 
-
 ### Features
 
-* **session:** add deleteOldestSessionByUserId method and update session creation logic ([1e02e82](https://github.com/LuisFernando12/Authenticator/commit/1e02e82cf55aaa3a77f4667a9ab23b7922d8ec4e))
-* **session:** update deleteOldestSessionByUserId to filter and sort sessions ([718d513](https://github.com/LuisFernando12/Authenticator/commit/718d513ab23006057d1c0681ed2ce6a2b858df8f))
+- **session:** add deleteOldestSessionByUserId method and update session creation logic ([1e02e82](https://github.com/LuisFernando12/Authenticator/commit/1e02e82cf55aaa3a77f4667a9ab23b7922d8ec4e))
+- **session:** update deleteOldestSessionByUserId to filter and sort sessions ([718d513](https://github.com/LuisFernando12/Authenticator/commit/718d513ab23006057d1c0681ed2ce6a2b858df8f))
 
 # [2.1.0](https://github.com/LuisFernando12/Authenticator/compare/v2.0.0...v2.1.0) (2026-07-16)
 
-
 ### Bug Fixes
 
-* add SMTP connection check in EmailWorker constructor ro debug in hml ([a98fa54](https://github.com/LuisFernando12/Authenticator/commit/a98fa543bc3b0eab3fa258245bb57fda785cc665))
-* **config:** update docker-compose service dependencies and template path ([078f9ce](https://github.com/LuisFernando12/Authenticator/commit/078f9ce3e96c14e97f752bc97bf556c5869e1ab9))
-* correct typos and naming inconsistencies across codebase ([c72ff87](https://github.com/LuisFernando12/Authenticator/commit/c72ff878c69e661d4f7b07be660b136ccfa2034a))
-* **email:** add error logging in sendActivationEmail method ([0677dfd](https://github.com/LuisFernando12/Authenticator/commit/0677dfd86f154ea6805301ae996f754a0329e44c))
-* **email:** add inline style for button color in active account email template ([197f9c8](https://github.com/LuisFernando12/Authenticator/commit/197f9c83c06c1a5a9be8e0ac0b36b506c1e1ca28))
-* remove unused error variable in catch blocks across multiple services ([3db9424](https://github.com/LuisFernando12/Authenticator/commit/3db9424969644edfa8b0abfe891c22ea7be49dc2))
-* update Dockerfile to use pnpm for package management and build process ([0c3723e](https://github.com/LuisFernando12/Authenticator/commit/0c3723ecc829d53232a3b19c452f89c607cff8f5))
-* update pre-commit script to use default Node version and set default port in main.ts ([94f8d4a](https://github.com/LuisFernando12/Authenticator/commit/94f8d4a420ece47231d1fbc2823b029b39a21cfb))
-
+- add SMTP connection check in EmailWorker constructor ro debug in hml ([a98fa54](https://github.com/LuisFernando12/Authenticator/commit/a98fa543bc3b0eab3fa258245bb57fda785cc665))
+- **config:** update docker-compose service dependencies and template path ([078f9ce](https://github.com/LuisFernando12/Authenticator/commit/078f9ce3e96c14e97f752bc97bf556c5869e1ab9))
+- correct typos and naming inconsistencies across codebase ([c72ff87](https://github.com/LuisFernando12/Authenticator/commit/c72ff878c69e661d4f7b07be660b136ccfa2034a))
+- **email:** add error logging in sendActivationEmail method ([0677dfd](https://github.com/LuisFernando12/Authenticator/commit/0677dfd86f154ea6805301ae996f754a0329e44c))
+- **email:** add inline style for button color in active account email template ([197f9c8](https://github.com/LuisFernando12/Authenticator/commit/197f9c83c06c1a5a9be8e0ac0b36b506c1e1ca28))
+- remove unused error variable in catch blocks across multiple services ([3db9424](https://github.com/LuisFernando12/Authenticator/commit/3db9424969644edfa8b0abfe891c22ea7be49dc2))
+- update Dockerfile to use pnpm for package management and build process ([0c3723e](https://github.com/LuisFernando12/Authenticator/commit/0c3723ecc829d53232a3b19c452f89c607cff8f5))
+- update pre-commit script to use default Node version and set default port in main.ts ([94f8d4a](https://github.com/LuisFernando12/Authenticator/commit/94f8d4a420ece47231d1fbc2823b029b39a21cfb))
 
 ### Features
 
-* add EmailLoggerPort provider to TestEmailModule for enhanced logging capabilities ([4ad680b](https://github.com/LuisFernando12/Authenticator/commit/4ad680bfd6d2420675d0827f842ce19968091dc0))
-* add SMTP address to configuration and update email sending methods ([70dfb92](https://github.com/LuisFernando12/Authenticator/commit/70dfb9213c71689b730bb82f8f4cc7dc6b08e8d2))
-* **consent:** add scopes property to OauthConsent and related services ([bd93c53](https://github.com/LuisFernando12/Authenticator/commit/bd93c53a2315410ba9831ce113ed93140ff63260))
-* **email:** refactor GmailProvide to implement OnModuleInit for OAuth2 client initialization ([5412a4b](https://github.com/LuisFernando12/Authenticator/commit/5412a4b29f97c1518873d8d7969190f307ee72bc))
-* **env:** add PORT variable and update database host configuration ([6ed1ce8](https://github.com/LuisFernando12/Authenticator/commit/6ed1ce80be2eeba63037d6b67ce76d9cf5bbc456))
-* migrate from SMTP to Gmail API for email sending ([25c4668](https://github.com/LuisFernando12/Authenticator/commit/25c4668439952a569f67fbadfbc6e0fe034b7252))
-* **token and session:** enhance token entity and repository for token family management ([9de698b](https://github.com/LuisFernando12/Authenticator/commit/9de698b88e87f73e453b8f80f7e23b6a369a46a4))
+- add EmailLoggerPort provider to TestEmailModule for enhanced logging capabilities ([4ad680b](https://github.com/LuisFernando12/Authenticator/commit/4ad680bfd6d2420675d0827f842ce19968091dc0))
+- add SMTP address to configuration and update email sending methods ([70dfb92](https://github.com/LuisFernando12/Authenticator/commit/70dfb9213c71689b730bb82f8f4cc7dc6b08e8d2))
+- **consent:** add scopes property to OauthConsent and related services ([bd93c53](https://github.com/LuisFernando12/Authenticator/commit/bd93c53a2315410ba9831ce113ed93140ff63260))
+- **email:** refactor GmailProvide to implement OnModuleInit for OAuth2 client initialization ([5412a4b](https://github.com/LuisFernando12/Authenticator/commit/5412a4b29f97c1518873d8d7969190f307ee72bc))
+- **env:** add PORT variable and update database host configuration ([6ed1ce8](https://github.com/LuisFernando12/Authenticator/commit/6ed1ce80be2eeba63037d6b67ce76d9cf5bbc456))
+- migrate from SMTP to Gmail API for email sending ([25c4668](https://github.com/LuisFernando12/Authenticator/commit/25c4668439952a569f67fbadfbc6e0fe034b7252))
+- **token and session:** enhance token entity and repository for token family management ([9de698b](https://github.com/LuisFernando12/Authenticator/commit/9de698b88e87f73e453b8f80f7e23b6a369a46a4))
 
 # [2.1.0-beta.8](https://github.com/LuisFernando12/Authenticator/compare/v2.1.0-beta.7...v2.1.0-beta.8) (2026-07-15)
 
-
 ### Bug Fixes
 
-* **email:** add inline style for button color in active account email template ([197f9c8](https://github.com/LuisFernando12/Authenticator/commit/197f9c83c06c1a5a9be8e0ac0b36b506c1e1ca28))
+- **email:** add inline style for button color in active account email template ([197f9c8](https://github.com/LuisFernando12/Authenticator/commit/197f9c83c06c1a5a9be8e0ac0b36b506c1e1ca28))
 
 # [2.1.0-beta.7](https://github.com/LuisFernando12/Authenticator/compare/v2.1.0-beta.6...v2.1.0-beta.7) (2026-07-15)
 
-
 ### Features
 
-* **email:** refactor GmailProvide to implement OnModuleInit for OAuth2 client initialization ([5412a4b](https://github.com/LuisFernando12/Authenticator/commit/5412a4b29f97c1518873d8d7969190f307ee72bc))
-* migrate from SMTP to Gmail API for email sending ([25c4668](https://github.com/LuisFernando12/Authenticator/commit/25c4668439952a569f67fbadfbc6e0fe034b7252))
+- **email:** refactor GmailProvide to implement OnModuleInit for OAuth2 client initialization ([5412a4b](https://github.com/LuisFernando12/Authenticator/commit/5412a4b29f97c1518873d8d7969190f307ee72bc))
+- migrate from SMTP to Gmail API for email sending ([25c4668](https://github.com/LuisFernando12/Authenticator/commit/25c4668439952a569f67fbadfbc6e0fe034b7252))
 
 # [2.1.0-beta.6](https://github.com/LuisFernando12/Authenticator/compare/v2.1.0-beta.5...v2.1.0-beta.6) (2026-07-13)
 
-
 ### Bug Fixes
 
-* add SMTP connection check in EmailWorker constructor ro debug in hml ([a98fa54](https://github.com/LuisFernando12/Authenticator/commit/a98fa543bc3b0eab3fa258245bb57fda785cc665))
-
+- add SMTP connection check in EmailWorker constructor ro debug in hml ([a98fa54](https://github.com/LuisFernando12/Authenticator/commit/a98fa543bc3b0eab3fa258245bb57fda785cc665))
 
 ### Features
 
-* add EmailLoggerPort provider to TestEmailModule for enhanced logging capabilities ([4ad680b](https://github.com/LuisFernando12/Authenticator/commit/4ad680bfd6d2420675d0827f842ce19968091dc0))
-* add SMTP address to configuration and update email sending methods ([70dfb92](https://github.com/LuisFernando12/Authenticator/commit/70dfb9213c71689b730bb82f8f4cc7dc6b08e8d2))
+- add EmailLoggerPort provider to TestEmailModule for enhanced logging capabilities ([4ad680b](https://github.com/LuisFernando12/Authenticator/commit/4ad680bfd6d2420675d0827f842ce19968091dc0))
+- add SMTP address to configuration and update email sending methods ([70dfb92](https://github.com/LuisFernando12/Authenticator/commit/70dfb9213c71689b730bb82f8f4cc7dc6b08e8d2))
 
 # [2.1.0-beta.5](https://github.com/LuisFernando12/Authenticator/compare/v2.1.0-beta.4...v2.1.0-beta.5) (2026-07-08)
 
-
 ### Bug Fixes
 
-* remove unused error variable in catch blocks across multiple services ([3db9424](https://github.com/LuisFernando12/Authenticator/commit/3db9424969644edfa8b0abfe891c22ea7be49dc2))
+- remove unused error variable in catch blocks across multiple services ([3db9424](https://github.com/LuisFernando12/Authenticator/commit/3db9424969644edfa8b0abfe891c22ea7be49dc2))
 
 # [2.1.0-beta.4](https://github.com/LuisFernando12/Authenticator/compare/v2.1.0-beta.3...v2.1.0-beta.4) (2026-07-08)
 
-
 ### Bug Fixes
 
-* update Dockerfile to use pnpm for package management and build process ([0c3723e](https://github.com/LuisFernando12/Authenticator/commit/0c3723ecc829d53232a3b19c452f89c607cff8f5))
+- update Dockerfile to use pnpm for package management and build process ([0c3723e](https://github.com/LuisFernando12/Authenticator/commit/0c3723ecc829d53232a3b19c452f89c607cff8f5))
 
 # [2.1.0-beta.3](https://github.com/LuisFernando12/Authenticator/compare/v2.1.0-beta.2...v2.1.0-beta.3) (2026-06-30)
 
-
 ### Bug Fixes
 
-* update pre-commit script to use default Node version and set default port in main.ts ([94f8d4a](https://github.com/LuisFernando12/Authenticator/commit/94f8d4a420ece47231d1fbc2823b029b39a21cfb))
+- update pre-commit script to use default Node version and set default port in main.ts ([94f8d4a](https://github.com/LuisFernando12/Authenticator/commit/94f8d4a420ece47231d1fbc2823b029b39a21cfb))
 
 # [2.1.0-beta.2](https://github.com/LuisFernando12/Authenticator/compare/v2.1.0-beta.1...v2.1.0-beta.2) (2026-06-30)
 
-
 ### Bug Fixes
 
-* correct typos and naming inconsistencies across codebase ([c72ff87](https://github.com/LuisFernando12/Authenticator/commit/c72ff878c69e661d4f7b07be660b136ccfa2034a))
+- correct typos and naming inconsistencies across codebase ([c72ff87](https://github.com/LuisFernando12/Authenticator/commit/c72ff878c69e661d4f7b07be660b136ccfa2034a))
 
 # [2.1.0-beta.1](https://github.com/LuisFernando12/Authenticator/compare/v2.0.0...v2.1.0-beta.1) (2026-06-30)
 
-
 ### Bug Fixes
 
-* **config:** update docker-compose service dependencies and template path ([078f9ce](https://github.com/LuisFernando12/Authenticator/commit/078f9ce3e96c14e97f752bc97bf556c5869e1ab9))
-* **email:** add error logging in sendActivationEmail method ([0677dfd](https://github.com/LuisFernando12/Authenticator/commit/0677dfd86f154ea6805301ae996f754a0329e44c))
-
+- **config:** update docker-compose service dependencies and template path ([078f9ce](https://github.com/LuisFernando12/Authenticator/commit/078f9ce3e96c14e97f752bc97bf556c5869e1ab9))
+- **email:** add error logging in sendActivationEmail method ([0677dfd](https://github.com/LuisFernando12/Authenticator/commit/0677dfd86f154ea6805301ae996f754a0329e44c))
 
 ### Features
 
-* **consent:** add scopes property to OauthConsent and related services ([bd93c53](https://github.com/LuisFernando12/Authenticator/commit/bd93c53a2315410ba9831ce113ed93140ff63260))
-* **env:** add PORT variable and update database host configuration ([6ed1ce8](https://github.com/LuisFernando12/Authenticator/commit/6ed1ce80be2eeba63037d6b67ce76d9cf5bbc456))
-* **token and session:** enhance token entity and repository for token family management ([9de698b](https://github.com/LuisFernando12/Authenticator/commit/9de698b88e87f73e453b8f80f7e23b6a369a46a4))
+- **consent:** add scopes property to OauthConsent and related services ([bd93c53](https://github.com/LuisFernando12/Authenticator/commit/bd93c53a2315410ba9831ce113ed93140ff63260))
+- **env:** add PORT variable and update database host configuration ([6ed1ce8](https://github.com/LuisFernando12/Authenticator/commit/6ed1ce80be2eeba63037d6b67ce76d9cf5bbc456))
+- **token and session:** enhance token entity and repository for token family management ([9de698b](https://github.com/LuisFernando12/Authenticator/commit/9de698b88e87f73e453b8f80f7e23b6a369a46a4))
 
 # [2.0.0-beta.6](https://github.com/LuisFernando12/Authenticator/compare/v2.0.0-beta.5...v2.0.0-beta.6) (2026-06-14)
 

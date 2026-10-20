@@ -9,8 +9,9 @@ import {
   HttpStatus,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import {
   ContextClient,
@@ -24,8 +25,10 @@ import {
 import { NewPasswordUseCase } from '../../application/use-case/new-password.use-case';
 import { ResetPasswordUseCase } from '../../application/use-case/reset-password.use-case';
 import { UnblockAccountUseCase } from '../../application/use-case/unblock-account.use-case';
+import { Request, RequestType } from '../decorator/request.decorator';
 import { LoginDTO } from '../dto/login.dto';
 import { UnblockAccountDTO } from '../dto/unblock-account.dto';
+import { AuthGuard } from '../guard/auth.guard';
 import { SendNewTokenToEmailActiveUseCase } from './../../application/use-case/send-new-token-to-email-active.use-case';
 
 export interface IAuthController {
@@ -69,6 +72,18 @@ export class AuthController implements IAuthController {
       ip: contextClient.ip,
       userAgent: contextClient.userAgent,
     });
+  }
+  @Get('/me')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 200,
+    description: 'User information retrieved successfully.',
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
+  async me(@Request() request: RequestType) {
+    return request.user;
   }
   @Get('/verify-email')
   @ApiQuery({ name: 'token', type: String })

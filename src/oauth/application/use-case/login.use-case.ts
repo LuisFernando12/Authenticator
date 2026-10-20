@@ -92,7 +92,6 @@ export class LoginUseCase {
             );
             let reason: InvalidLoginAttemptReasonType = 'USER_NOT_FOUND';
             if (userDB) {
-              console.log(userDB);
               reason = 'INVALID_PASSWORD';
               const code = this.generateOtpServicePort.generateOTP();
               await this.redisServicePort.saveUnblockAccountCodeOTP(

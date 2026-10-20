@@ -11,6 +11,7 @@ import { AppConfigEnvService } from '../../../core/domain/service/app-config-env
 import { RedisService } from '../../../core/domain/service/redis.service';
 
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { JwtService } from '@nestjs/jwt';
 import { RedisServiceImplement } from '../../../core/infrastructure/service/redis.service';
 import { EmailModule } from '../../../email/infrastructure/module/email.module';
 import { EmailQueue } from '../../../email/infrastructure/queue/email.queue';
@@ -65,6 +66,7 @@ import { SecurityEventAdapter } from '../adapter/security-event.adapter';
 import { TempPasswordServiceAdapter } from '../adapter/temp-password-service.adapter';
 import { TokenServiceAdapter } from '../adapter/token-service.adapter';
 import { UserValidateCredentialsServiceAdapter } from '../adapter/user-validate-credential-service.adapter';
+import { AuthGuard } from '../guard/auth.guard';
 import { UserRepositoryAdapter } from './../adapter/user-repository.adapter';
 
 @Module({
@@ -248,6 +250,8 @@ import { UserRepositoryAdapter } from './../adapter/user-repository.adapter';
         TEMP_PASSWORD_SERVICE_PORT,
       ],
     },
+    AuthGuard,
+    JwtService,
   ],
 })
 export class AuthModule {}
