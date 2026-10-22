@@ -4,5 +4,5 @@ export interface IGenerateToken {
   scope?: string;
   aud?: string;
   iss?: string;
-  type?: 'access' | 'email_verification';
+  type?: 'access' | 'email_verification' | 'mfa';
 }

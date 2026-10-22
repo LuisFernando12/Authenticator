@@ -5,6 +5,11 @@ import { FindByRefreshTokenUseCase } from '../use-case/find-by-refresh-token.use
 import { FindByTokenFamilyIdUseCase } from '../use-case/find-by-token-family-id.use-case';
 import { GenerateEmailVerificationTokenUseCase } from '../use-case/generate-email-verification-token.use-case';
 import {
+  GenerateMFATokenUseCase,
+  IGenerateMFATokenPayload,
+  IGenerateMFATokenResponse,
+} from '../use-case/generate-mfa-token.use-case';
+import {
   GenerateTokenUseCase,
   IGenerateTokenPayload,
   IGenerateTokenResponse,
@@ -24,6 +29,9 @@ export abstract class TokenService {
     payload,
     consentId,
   }: IGenerateTokenPayload): Promise<IGenerateTokenResponse>;
+  abstract generateMFAToken(
+    payload: IGenerateMFATokenPayload,
+  ): Promise<IGenerateMFATokenResponse>;
   abstract refreshToken({
     payload,
     oldRefreshToken,
@@ -43,6 +51,7 @@ export abstract class TokenService {
 export class TokenServiceImpls implements TokenService {
   constructor(
     private readonly generateTokenUseCase: GenerateTokenUseCase,
+    private readonly generateMFATokenUseCase: GenerateMFATokenUseCase,
     private readonly refreshTokenUseCase: RefreshTokenUseCase,
     private readonly revokeTokenUseCase: RevokeTokenUseCase,
     private readonly tokenIntrospectUseCase: TokenIntrospectUseCase,
@@ -60,6 +69,11 @@ export class TokenServiceImpls implements TokenService {
       payload,
       consentId: consentId || null,
     });
+  }
+  async generateMFAToken(
+    payload: IGenerateMFATokenPayload,
+  ): Promise<IGenerateMFATokenResponse> {
+    return await this.generateMFATokenUseCase.execute(payload);
   }
   async refreshToken({
     payload,

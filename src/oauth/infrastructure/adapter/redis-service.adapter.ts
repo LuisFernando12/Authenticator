@@ -6,6 +6,7 @@ import {
 } from '../../application/port/redis-service-port';
 import { OauthRequest } from '../../domain/entity/oauth-request.entity';
 import { OauthDomainError } from '../../domain/error/oauth-domain.error';
+import { MFASchemaValueObject } from '../../domain/value-object/mfa-schema.value-object';
 
 export class RedisServiceAdapter implements RedisServicePort {
   constructor(private readonly redisService: RedisService) {}
@@ -126,5 +127,35 @@ export class RedisServiceAdapter implements RedisServicePort {
     if (!saveCodeOTP) {
       throw OauthDomainError.internalServerError('Failure to save code OTP');
     }
+  }
+  async saveMFASchema(
+    mfaSchemaId: string,
+    mfaSchema: MFASchemaValueObject,
+  ): Promise<string> {
+    const saveMFASchemaOnRedis = await this.redisService.setOnRedis(
+      `oauth:mfa:schema:${mfaSchemaId}`,
+      mfaSchema.toStringify(),
+      240,
+    );
+    if (!saveMFASchemaOnRedis) {
+      throw OauthDomainError.invalidGrant(
+        'Failure to save MFA Schema on redis!',
+      );
+    }
+    return saveMFASchemaOnRedis;
+  }
+  async consumeMFASchema(
+    mfaSchemaId: string,
+  ): Promise<MFASchemaValueObject | null> {
+    const payloadMFASchema = await this.redisService.getOnRedis(
+      `oauth:mfa:schema:${mfaSchemaId}`,
+    );
+    if (!payloadMFASchema) {
+      throw OauthDomainError.invalidGrant('MFA Schema ID not found');
+    }
+    return MFASchemaValueObject.toJSON(payloadMFASchema);
+  }
+  async deleteMFASchema(mfaSchemaId: string): Promise<void> {
+    await this.redisService.deleteFromRedis(`oauth:mfa:schema:${mfaSchemaId}`);
   }
 }

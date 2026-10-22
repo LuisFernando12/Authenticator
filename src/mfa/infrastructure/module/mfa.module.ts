@@ -1,18 +1,34 @@
+import {
+  USER_REPOSITORY_PORT,
+  UserRepositoryPort,
+} from '@/core/application/port/user-repository.port';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { AuthModule } from '../../../auth/infrastructure/module/auth.module';
 import { TransactionPort } from '../../../core/application/port/transaction.port';
 import { RedisService } from '../../../core/domain/service/redis.service';
 import { AuthGuardModule } from '../../../core/infrastructure/module/auth-guard.module';
 import { RedisModule } from '../../../core/infrastructure/module/redis.module';
 import { TRANSACTION_PORT } from '../../../token/application/port/transaction.port';
-import { MFA_REPOSITORY_PORT } from '../../application/port/mfa-repository.port';
-import { TOTP_REPOSITORY_PORT } from '../../application/port/totp-repository.port';
-import { TOTP_PORT } from '../../application/port/totp.port';
-import { TOTPGenerateQrCodeUseCase } from '../../application/user-case/totp-generate-qrCode.use-case';
-import { TOTPRegisterUseCase } from '../../application/user-case/totp-register.use-case';
-import { TOTPVerifyUseCase } from '../../application/user-case/totp-verify.use-case';
+import { TokenService } from '../../../token/application/service/token.service';
+import { TokenModule } from '../../../token/infrastructure/module/token.module';
+import {
+  MFA_REPOSITORY_PORT,
+  MFARepositoryPort,
+} from '../../application/port/mfa-repository.port';
+import {
+  TOKEN_SERVICE_PORT,
+  TokenServicePort,
+} from '../../application/port/token-service.port';
+import {
+  TOTP_REPOSITORY_PORT,
+  TOTPRepositoryPort,
+} from '../../application/port/totp-repository.port';
+import { TOTP_PORT, TOTPPort } from '../../application/port/totp.port';
+import { TOTPGenerateQrCodeUseCase } from '../../application/use-case/totp-generate-qrCode.use-case';
+import { TOTPRegisterUseCase } from '../../application/use-case/totp-register.use-case';
+import { TOTPVerifyUseCase } from '../../application/use-case/totp-verify.use-case';
+import { TokenServiceAdapter } from '../adapter/token-service.adapter';
 import { TOTPAdapter } from '../adapter/totp.adapter';
 import { TransactionAdapter } from '../adapter/transaction.adapter';
 import { MFAController } from '../controller/mfa.controller';
@@ -23,15 +39,21 @@ import { TOTPRepositoryImpl } from '../persistence/repository/totp.repository';
 
 @Module({
   imports: [
-    AuthModule,
     TypeOrmModule.forFeature([TOTPEntity, MFAEntity]),
     AuthGuardModule,
     RedisModule,
+    TokenModule,
   ],
   providers: [
     { provide: TOTP_REPOSITORY_PORT, useClass: TOTPRepositoryImpl },
     { provide: MFA_REPOSITORY_PORT, useClass: MFARepositoryImpl },
     { provide: TOTP_PORT, useClass: TOTPAdapter },
+    {
+      provide: TOKEN_SERVICE_PORT,
+      useFactory: (tokenService: TokenService) =>
+        new TokenServiceAdapter(tokenService),
+      inject: [TokenService],
+    },
     {
       provide: TRANSACTION_PORT,
       useFactory: (
@@ -42,23 +64,45 @@ import { TOTPRepositoryImpl } from '../persistence/repository/totp.repository';
     },
     {
       provide: TOTPRegisterUseCase,
-      useFactory: (redisService, totpPort, transactionPort) =>
-        new TOTPRegisterUseCase(redisService, totpPort, transactionPort),
+      useFactory: (
+        redisService: RedisService,
+        totpPort: TOTPPort,
+        transactionPort: TransactionPort<MFARepositoryPort, TOTPRepositoryPort>,
+      ) => new TOTPRegisterUseCase(redisService, totpPort, transactionPort),
       inject: [RedisService, TOTP_PORT, TRANSACTION_PORT],
     },
     {
       provide: TOTPGenerateQrCodeUseCase,
-      useFactory: (redisService, totpPort, mfaRepository) =>
-        new TOTPGenerateQrCodeUseCase(redisService, totpPort, mfaRepository),
+      useFactory: (
+        redisService: RedisService,
+        totpPort: TOTPPort,
+        mfaRepository: MFARepositoryPort,
+      ) => new TOTPGenerateQrCodeUseCase(redisService, totpPort, mfaRepository),
       inject: [RedisService, TOTP_PORT, MFA_REPOSITORY_PORT, TRANSACTION_PORT],
     },
     {
       provide: TOTPVerifyUseCase,
-      useFactory: (totpPort, mfaRepository) =>
-        new TOTPVerifyUseCase(totpPort, mfaRepository),
-      inject: [TOTP_PORT, MFA_REPOSITORY_PORT],
+      useFactory: (
+        totpPort: TOTPPort,
+        mfaRepository: MFARepositoryPort,
+        tokenServicePort: TokenServicePort,
+        userRepositoryPort: UserRepositoryPort,
+      ) =>
+        new TOTPVerifyUseCase(
+          totpPort,
+          mfaRepository,
+          tokenServicePort,
+          userRepositoryPort,
+        ),
+      inject: [
+        TOTP_PORT,
+        MFA_REPOSITORY_PORT,
+        TOKEN_SERVICE_PORT,
+        USER_REPOSITORY_PORT,
+      ],
     },
   ],
   controllers: [MFAController],
+  exports: [MFA_REPOSITORY_PORT, TOTP_PORT],
 })
 export class MFAModule {}

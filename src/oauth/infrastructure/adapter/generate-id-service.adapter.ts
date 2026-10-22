@@ -15,4 +15,7 @@ export class GenerateIdServiceAdapter implements GenerateIdServicePort {
       .update(crypto.randomBytes(32))
       .digest('base64url');
   }
+  generateMFAChallengeId(): string {
+    return crypto.randomUUID();
+  }
 }

@@ -39,6 +39,7 @@ import { DeleteByTokenFamilyIdUseCase } from '../../application/use-case/delete-
 import { FindByRefreshTokenUseCase } from '../../application/use-case/find-by-refresh-token.use-case';
 import { FindByTokenFamilyIdUseCase } from '../../application/use-case/find-by-token-family-id.use-case';
 import { GenerateEmailVerificationTokenUseCase } from '../../application/use-case/generate-email-verification-token.use-case';
+import { GenerateMFATokenUseCase } from '../../application/use-case/generate-mfa-token.use-case';
 import { GenerateTokenUseCase } from '../../application/use-case/generate-token.use-case';
 import { RefreshTokenUseCase } from '../../application/use-case/refresh-token.use-case';
 import { RevokeTokenUseCase } from '../../application/use-case/revoke-token.use-case';
@@ -169,6 +170,12 @@ import { VerifyTokenUseCase } from './../../application/use-case/verify-token.us
       ],
     },
     {
+      provide: GenerateMFATokenUseCase,
+      useFactory: (jwtServicePort: JwtServicePort) =>
+        new GenerateMFATokenUseCase(jwtServicePort),
+      inject: [JWT_SERVICE_PORT],
+    },
+    {
       provide: RefreshTokenUseCase,
       useFactory: (
         tokenRepositoryPort: TokenRepositoryPort,
@@ -211,6 +218,7 @@ import { VerifyTokenUseCase } from './../../application/use-case/verify-token.us
       provide: TokenService,
       useFactory: (
         generateTokenUseCase: GenerateTokenUseCase,
+        generateMFATokenUseCase: GenerateMFATokenUseCase,
         refreshTokenUseCase: RefreshTokenUseCase,
         revokeTokenUseCase: RevokeTokenUseCase,
         tokenIntrospectUseCase: TokenIntrospectUseCase,
@@ -222,6 +230,7 @@ import { VerifyTokenUseCase } from './../../application/use-case/verify-token.us
       ): TokenService =>
         new TokenServiceImpls(
           generateTokenUseCase,
+          generateMFATokenUseCase,
           refreshTokenUseCase,
           revokeTokenUseCase,
           tokenIntrospectUseCase,
@@ -233,6 +242,7 @@ import { VerifyTokenUseCase } from './../../application/use-case/verify-token.us
         ),
       inject: [
         GenerateTokenUseCase,
+        GenerateMFATokenUseCase,
         RefreshTokenUseCase,
         RevokeTokenUseCase,
         TokenIntrospectUseCase,

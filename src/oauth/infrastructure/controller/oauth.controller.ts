@@ -14,9 +14,11 @@ import {
   ContextClient,
   IContextClient,
 } from '../../../config/decorator/context-client.decorator';
+import { TotpDTO } from '../../../mfa/infrastructure/dto/totp.dto';
 import { AuthorizeUseCase } from '../../application/use-case/authorize.use-case';
 import { ExchangeOauthCodeUseCase } from '../../application/use-case/exchange-auth-code.use-case';
 import { LoginUseCase } from '../../application/use-case/login.use-case';
+import { OauthTOTPVerifyUseCase } from '../../application/use-case/oauth-totp-verify.use-case';
 import { RefreshTokenUseCase } from '../../application/use-case/refresh-token.use-case';
 import { RevokeTokenUseCase } from '../../application/use-case/revoke-token.use-case';
 import { TokenIntrospectUseCase } from '../../application/use-case/token-introspect.use-case';
@@ -27,6 +29,7 @@ import {
   OauthRefreshTokenDTO,
   OauthTokenDTO,
 } from '../dto/oauth-authorize.dto';
+import { OauthTOTPVerifyDTO } from '../dto/oauth-totp-verify.dto';
 import { RevokeTokenDTO, TokenIntrospectDTO } from '../dto/token.dto';
 
 export interface IOauthController {
@@ -62,6 +65,7 @@ export class OauthController implements IOauthController {
     private readonly revokeTokenUseCase: RevokeTokenUseCase,
     private readonly tokenIntrospectUseCase: TokenIntrospectUseCase,
     private readonly exchangeOauthCodeUseCase: ExchangeOauthCodeUseCase,
+    private readonly oauthTotpVerifyUseCase: OauthTOTPVerifyUseCase,
   ) {}
   @Get('/authorize')
   @Redirect()
@@ -114,6 +118,25 @@ export class OauthController implements IOauthController {
       QueryOauthLogin,
     );
     return { url: urlRedirect.toString(), statusCode: 302 };
+  }
+  @Post('mfa/totp/verify')
+  @Redirect()
+  @HttpCode(HttpStatus.FOUND)
+  @ApiResponse({
+    status: HttpStatus.FOUND,
+    description: 'TOTP verified successfully',
+  })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+  async oauthVerifyTotp(
+    @Body() { code }: TotpDTO,
+    @Query() queryOauth: OauthTOTPVerifyDTO,
+  ) {
+    const url = await this.oauthTotpVerifyUseCase.execute({
+      code: code,
+      queryOauth: queryOauth,
+    });
+
+    return { url: url.toString(), statusCode: 302 };
   }
 
   @Post('/refresh-token')

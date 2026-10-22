@@ -12,10 +12,10 @@ import { ApiBody, ApiResponse } from '@nestjs/swagger';
 import {
   Request,
   RequestType,
-} from '../../../auth/infrastructure/decorator/request.decorator';
-import { TOTPGenerateQrCodeUseCase } from '../../application/user-case/totp-generate-qrCode.use-case';
-import { TOTPRegisterUseCase } from '../../application/user-case/totp-register.use-case';
-import { TOTPVerifyUseCase } from '../../application/user-case/totp-verify.use-case';
+} from '../../../core/infrastructure/decorator/request.decorator';
+import { TOTPGenerateQrCodeUseCase } from '../../application/use-case/totp-generate-qrCode.use-case';
+import { TOTPRegisterUseCase } from '../../application/use-case/totp-register.use-case';
+import { TOTPVerifyUseCase } from '../../application/use-case/totp-verify.use-case';
 import { TotpDTO } from '../dto/totp.dto';
 
 @Controller('mfa')
@@ -58,6 +58,7 @@ export class MFAController {
     });
   }
   @Post('totp/verify')
+  @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
   @ApiBody({
     type: TotpDTO,
@@ -68,9 +69,11 @@ export class MFAController {
   })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
   async verifyTotp(@Body() { code }: TotpDTO, @Request() request: RequestType) {
-    return await this.totpVerifyUseCase.execute({
+    const response = await this.totpVerifyUseCase.execute({
       userId: request.user.sub,
       code: code,
+      email: request.user.email,
     });
+    return response;
   }
 }

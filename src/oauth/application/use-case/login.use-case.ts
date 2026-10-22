@@ -1,9 +1,11 @@
+import { MFARepositoryPort } from '@/mfa/application/port/mfa-repository.port';
 import { SecurityEventType } from '../../../security-event/domain/enum/security-event-type.enum';
 import { SeverityType } from '../../../security-event/domain/enum/severity-type.enum';
 import {
   HttpStatus,
   OauthDomainError,
 } from '../../domain/error/oauth-domain.error';
+import { MFASchemaValueObject } from '../../domain/value-object/mfa-schema.value-object';
 import { MountUrlValueObject } from '../../domain/value-object/mount-url.value-object';
 import { EmailServicePort } from '../port/email-service.port';
 import { GenerateIdServicePort } from '../port/generate-id-service.port';
@@ -42,6 +44,7 @@ export class LoginUseCase {
     private readonly securityEventPort: SecurityEventPort,
     private readonly generateOtpServicePort: GenerateOtpServicePort,
     private readonly emailServicePort: EmailServicePort,
+    private readonly mfaRepositoryPort: MFARepositoryPort,
   ) {}
   private readonly MAX_ATTEMPTS_FAILED = 5;
   async execute(
@@ -52,34 +55,56 @@ export class LoginUseCase {
       const { oauthRequestId, clientId, scope, redirectUri, state } =
         queryOauthLogin;
       const { email, password } = payload;
-      const oauthRequest =
-        await this.redisServicePort.consumeOauthRequest(oauthRequestId);
-
-      oauthRequest.requestMatch(queryOauthLogin);
 
       const userDB = await this.userServicePort.validateUserCredentials({
         email,
         password,
       });
+      const mfaDB = await this.mfaRepositoryPort.findByUserId(userDB.id);
 
-      const code = this.generateIdServicePort.generateOauthAuthorizationCode();
+      if (mfaDB.length > 0) {
+        const mfaSchemaId = this.generateIdServicePort.generateMFAChallengeId();
+        const mfaSchema = MFASchemaValueObject.create({
+          userId: userDB.id,
+          email: userDB.email,
+          oauthRequestId: oauthRequestId,
+        });
+
+        const mfaSchemaSaved = await this.redisServicePort.saveMFASchema(
+          mfaSchemaId,
+          mfaSchema,
+        );
+        const uri_redirect = MountUrlValueObject.mount(
+          'http://localhost:4000/oauth/mfa/totp',
+          { ...queryOauthLogin, mfaSchemaId: mfaSchemaId },
+        );
+        if (!mfaSchemaSaved || !uri_redirect) {
+          throw OauthDomainError.internalServerError(
+            'Failed to initiate MFA process',
+          );
+        }
+        return uri_redirect;
+      }
+
+      const oauthRequest =
+        await this.redisServicePort.consumeOauthRequest(oauthRequestId);
+      oauthRequest.requestMatch(queryOauthLogin);
       const payloadOauthCodeRedis = {
         userEmail: email,
         codeChallenge: oauthRequest.codeChallenge,
         codeChallengeMethod: oauthRequest.codeChallengeMethod,
         scope: oauthRequest.scope,
       };
+      const code = this.generateIdServicePort.generateOauthAuthorizationCode();
       await this.redisServicePort.saveOauthAuthorizationCode(
         code,
         payloadOauthCodeRedis,
       );
-
       await this.consentServicePort.findOrCreateConsent(
         userDB.id,
         clientId,
         scope,
       );
-
       return MountUrlValueObject.mount(redirectUri, { code, state });
     } catch (error: any) {
       if (error instanceof OauthDomainError) {

@@ -16,6 +16,9 @@ export class MFARepositoryImpl implements MFARepositoryPort {
     try {
       const mfaDB = await this.mfaRepository.find({
         where: { userId: userId },
+        relations: {
+          totp: true,
+        },
       });
       if (!mfaDB || mfaDB.length === 0) {
         return [];

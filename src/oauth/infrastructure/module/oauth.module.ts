@@ -29,8 +29,8 @@ import {
   TokenServicePort,
 } from '../../application/port/token-service.port';
 import {
+  CONSENT_SERVICE_PORT,
   ConsentServicePort,
-  USER_CLIENT_CONSENT_SERVICE_PORT,
 } from '../../application/port/user-client-consent-service.port';
 import {
   USER_SERVICE_PORT,
@@ -44,6 +44,10 @@ import { RevokeTokenUseCase } from '../../application/use-case/revoke-token.use-
 import { TokenIntrospectUseCase } from '../../application/use-case/token-introspect.use-case';
 
 import {
+  MFA_REPOSITORY_PORT,
+  MFARepositoryPort,
+} from '@/mfa/application/port/mfa-repository.port';
+import {
   IUserRepository,
   UserRepository,
 } from '@/user/infrastructure/persistence/repository/user.repository';
@@ -56,6 +60,8 @@ import { ConsentService } from '../../../consent/application/service/consent.ser
 import { ConsentModule } from '../../../consent/infrastructure/module/consent.module';
 import { EmailModule } from '../../../email/infrastructure/module/email.module';
 import { EmailQueue } from '../../../email/infrastructure/queue/email.queue';
+import { TOTP_PORT, TOTPPort } from '../../../mfa/application/port/totp.port';
+import { MFAModule } from '../../../mfa/infrastructure/module/mfa.module';
 import { TokenService } from '../../../token/application/service/token.service';
 import {
   EMAIL_SERVICE_PORT,
@@ -73,6 +79,7 @@ import {
   SECURITY_EVENT_PORT,
   SecurityEventPort,
 } from '../../application/port/security-event.port';
+import { OauthTOTPVerifyUseCase } from '../../application/use-case/oauth-totp-verify.use-case';
 import { ClientServiceAdapter } from '../adapter/client-service.adapter';
 import { ConfigServiceAdapter } from '../adapter/config-service.adapter';
 import { ConsentServiceAdapter } from '../adapter/consent-service.adapter';
@@ -93,6 +100,7 @@ import { UserServiceAdapter } from '../adapter/user-service.adapter';
     ConsentModule,
     AppConfigModule,
     EmailModule,
+    MFAModule,
   ],
   controllers: [OauthController],
   providers: [
@@ -115,7 +123,7 @@ import { UserServiceAdapter } from '../adapter/user-service.adapter';
       inject: [ClientRepository],
     },
     {
-      provide: USER_CLIENT_CONSENT_SERVICE_PORT,
+      provide: CONSENT_SERVICE_PORT,
       useFactory: (userClientConsentService: ConsentService) =>
         new ConsentServiceAdapter(userClientConsentService),
       inject: [ConsentService],
@@ -218,8 +226,35 @@ import { UserServiceAdapter } from '../adapter/user-service.adapter';
         REDIS_SERVICE_PORT,
         HASHED_CLIENT_SECRET_SERVICE_PORT,
         USER_SERVICE_PORT,
-        USER_CLIENT_CONSENT_SERVICE_PORT,
+        CONSENT_SERVICE_PORT,
         CONFIG_SERVICE_PORT,
+      ],
+    },
+    {
+      provide: OauthTOTPVerifyUseCase,
+      useFactory: (
+        totpPort: TOTPPort,
+        mfaRepository: MFARepositoryPort,
+        userServicePort: UserServicePort,
+        redisServicePort: RedisServicePort,
+        generateIdServicePort: GenerateIdServicePort,
+        consentServicePort: ConsentServicePort,
+      ) =>
+        new OauthTOTPVerifyUseCase(
+          totpPort,
+          mfaRepository,
+          userServicePort,
+          redisServicePort,
+          generateIdServicePort,
+          consentServicePort,
+        ),
+      inject: [
+        TOTP_PORT,
+        MFA_REPOSITORY_PORT,
+        USER_SERVICE_PORT,
+        REDIS_SERVICE_PORT,
+        GENERATE_ID_SERVICE_PORT,
+        CONSENT_SERVICE_PORT,
       ],
     },
     {
@@ -232,6 +267,7 @@ import { UserServiceAdapter } from '../adapter/user-service.adapter';
         securityEventPort: SecurityEventPort,
         generateOtpServicePort: GenerateOtpServicePort,
         emailServicePort: EmailServicePort,
+        mfaRepositoryPort: MFARepositoryPort,
       ) => {
         return new LoginUseCase(
           redisServicePort,
@@ -241,16 +277,18 @@ import { UserServiceAdapter } from '../adapter/user-service.adapter';
           securityEventPort,
           generateOtpServicePort,
           emailServicePort,
+          mfaRepositoryPort,
         );
       },
       inject: [
         REDIS_SERVICE_PORT,
         USER_SERVICE_PORT,
-        USER_CLIENT_CONSENT_SERVICE_PORT,
+        CONSENT_SERVICE_PORT,
         GENERATE_ID_SERVICE_PORT,
         SECURITY_EVENT_PORT,
         GENERATE_OTP_SERVICE_PORT,
         EMAIL_SERVICE_PORT,
+        MFA_REPOSITORY_PORT,
       ],
     },
     {
@@ -274,7 +312,7 @@ import { UserServiceAdapter } from '../adapter/user-service.adapter';
       inject: [
         TOKEN_SERVICE_PORT,
         USER_SERVICE_PORT,
-        USER_CLIENT_CONSENT_SERVICE_PORT,
+        CONSENT_SERVICE_PORT,
         CONFIG_SERVICE_PORT,
         REDIS_SERVICE_PORT,
         SECURITY_EVENT_PORT,

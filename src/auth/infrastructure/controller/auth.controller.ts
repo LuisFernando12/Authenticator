@@ -17,25 +17,30 @@ import {
   ContextClient,
   IContextClient,
 } from '../../../config/decorator/context-client.decorator';
+import {
+  Request,
+  RequestType,
+} from '../../../core/infrastructure/decorator/request.decorator';
 import { ActiveAccountUseCase } from '../../application/use-case/active-account.use-case';
 import {
   ILoginUseCaseResponse,
+  ILoginUseCaseResponseWithMFA,
   LoginUseCase,
 } from '../../application/use-case/login.use-case';
 import { NewPasswordUseCase } from '../../application/use-case/new-password.use-case';
 import { ResetPasswordUseCase } from '../../application/use-case/reset-password.use-case';
 import { UnblockAccountUseCase } from '../../application/use-case/unblock-account.use-case';
-import { Request, RequestType } from '../decorator/request.decorator';
 import { LoginDTO } from '../dto/login.dto';
 import { UnblockAccountDTO } from '../dto/unblock-account.dto';
-import { AuthGuard } from '../guard/auth.guard';
+
+import { AuthGuard } from '@/core/infrastructure/guard/auth.guard';
 import { SendNewTokenToEmailActiveUseCase } from './../../application/use-case/send-new-token-to-email-active.use-case';
 
 export interface IAuthController {
   login(
     data: LoginDTO,
     contextClient: IContextClient,
-  ): Promise<ILoginUseCaseResponse>;
+  ): Promise<ILoginUseCaseResponse | ILoginUseCaseResponseWithMFA>;
   verifyEmail(token: string): Promise<void>;
   resetPassword(data: { email: string }): Promise<{ message: string }>;
   newPassword(data: NewPasswordDTO): Promise<{ message: string }>;

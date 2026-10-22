@@ -5,6 +5,7 @@ import {
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Inject,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -16,6 +17,7 @@ interface TokenDecode {
   tokenFamilyId: string;
   iat: number;
   exp: number;
+  type: 'access' | 'email_verification' | 'mfa';
 }
 export class AuthGuard implements CanActivate {
   constructor(
@@ -36,6 +38,13 @@ export class AuthGuard implements CanActivate {
       if (!decoded) {
         throw new UnauthorizedException('Invalid token');
       }
+      if (
+        decoded.type === 'mfa' &&
+        request.url !== '/api/auth/mfa/totp/verify'
+      ) {
+        throw new ForbiddenException('Access unauthorized !');
+      }
+
       const userDB = await this.userRepository.findByEmail(decoded.username);
       if (!userDB) {
         throw new UnauthorizedException('Unauthorized');
@@ -48,7 +57,13 @@ export class AuthGuard implements CanActivate {
         createdAt: userDB.createdAt,
       };
       return true;
-    } catch {
+    } catch (error) {
+      if (
+        error instanceof ForbiddenException ||
+        error instanceof UnauthorizedException
+      ) {
+        throw error;
+      }
       throw new UnauthorizedException('Invalid token');
     }
   }

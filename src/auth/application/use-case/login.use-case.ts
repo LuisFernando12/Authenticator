@@ -7,6 +7,7 @@ import { AuthDomainError } from '../../domain/error/auth-domain.error';
 import { ConfigServicePort } from '../port/config-service.port';
 import { EmailServicePort } from '../port/email-service.port';
 import { GenerateOtpServicePort } from '../port/generate-otp-service.port';
+import { MFARepositoryPort } from '../port/mfa-repository.port';
 import { RedisServicePort } from '../port/redis-service.port';
 import {
   InvalidLoginAttemptReasonType,
@@ -27,9 +28,14 @@ export interface ILoginUseCaseResponse {
   expiresAt: string;
   redirect_uri: string;
 }
+export interface ILoginUseCaseResponseWithMFA {
+  mfa_access_token: string;
+  mfa_required: boolean;
+  mfa_available: Array<string>;
+}
 export class LoginUseCase implements BaseUseCase<
   ILoginUseCasePayload,
-  ILoginUseCaseResponse
+  ILoginUseCaseResponse | ILoginUseCaseResponseWithMFA
 > {
   constructor(
     private readonly userRepositoryPort: UserRepositoryPort,
@@ -40,11 +46,18 @@ export class LoginUseCase implements BaseUseCase<
     private readonly redisServicePort: RedisServicePort,
     private readonly emailServicePort: EmailServicePort,
     private readonly generateOtpServicePort: GenerateOtpServicePort,
+    private readonly mfaRepositoryPort: MFARepositoryPort,
   ) {}
   private readonly MAX_ATTEMPTS_FAILED = 5;
-  async execute(payload: ILoginUseCasePayload): Promise<ILoginUseCaseResponse> {
+  async execute({
+    ip,
+    userAgent,
+    email,
+    password,
+  }: ILoginUseCasePayload): Promise<
+    ILoginUseCaseResponse | ILoginUseCaseResponseWithMFA
+  > {
     try {
-      const { email, password } = payload;
       const userDB = await this.userRepositoryPort.findByEmail(email);
 
       const isMatchedPassword =
@@ -54,7 +67,20 @@ export class LoginUseCase implements BaseUseCase<
         );
       userDB.passwordMismatch(isMatchedPassword);
       userDB.isVerifiedAccount(AuthFlow.login);
-
+      const mfaDB = await this.mfaRepositoryPort.findByUserId(userDB.id);
+      if (mfaDB.length > 0) {
+        const { mfa_access_token } =
+          await this.tokenServicePort.generateMFAToken({
+            sub: userDB.id,
+            username: userDB.email,
+            type: 'mfa',
+          });
+        return {
+          mfa_access_token: mfa_access_token,
+          mfa_required: true,
+          mfa_available: mfaDB.map((mfa) => mfa.type),
+        };
+      }
       const token = await this.tokenServicePort.generateToken({
         sub: userDB.id,
         username: userDB.email,
@@ -70,37 +96,35 @@ export class LoginUseCase implements BaseUseCase<
       if (error instanceof AuthDomainError) {
         if (error.status === HttpStatus.UNAUTHORIZED) {
           const failedLoginAttempt =
-            await this.redisServicePort.getFailedLoginAttempt(payload.email);
+            await this.redisServicePort.getFailedLoginAttempt(email);
           if (failedLoginAttempt >= this.MAX_ATTEMPTS_FAILED) {
-            const userDB = await this.userRepositoryPort.findByEmail(
-              payload.email,
-            );
+            const userDB = await this.userRepositoryPort.findByEmail(email);
             let reason: InvalidLoginAttemptReasonType = 'USER_NOT_FOUND';
             if (userDB) {
               reason = 'INVALID_PASSWORD';
               const code = this.generateOtpServicePort.generateOTP();
               await this.redisServicePort.saveUnblockAccountCodeOTP(
                 code,
-                payload.email,
+                email,
               );
               await this.emailServicePort.blockAccount({
-                email: payload.email,
+                email: email,
                 username: userDB.name,
                 code: code,
               });
-              await this.userRepositoryPort.blockAccount(payload.email);
+              await this.userRepositoryPort.blockAccount(email);
             }
             this.securityEventPort.emit({
               type: SecurityEventType.INVALID_LOGIN_ATTEMPT,
-              email: payload.email,
+              email: email,
               severity: SeverityType.HIGH,
-              ip: payload.ip,
-              userAgent: payload.userAgent,
+              ip: ip,
+              userAgent: userAgent,
               reason,
             });
             throw error;
           }
-          await this.redisServicePort.setFailedLoginAttempt(payload.email);
+          await this.redisServicePort.setFailedLoginAttempt(email);
         }
       }
       throw error;

@@ -1,6 +1,4 @@
-export const USER_CLIENT_CONSENT_SERVICE_PORT = Symbol(
-  'USER_CLIENT_CONSENT_SERVICE',
-);
+export const CONSENT_SERVICE_PORT = Symbol('CONSENT_SERVICE_PORT');
 export abstract class ConsentServicePort {
   abstract findByConsentId(consentId: string);
   abstract findConsentByUserIdAndClientId(userId: string, clientId: string);

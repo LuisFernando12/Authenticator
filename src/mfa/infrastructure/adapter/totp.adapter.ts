@@ -36,7 +36,7 @@ export class TOTPAdapter implements TOTPPort {
       token: code,
       window: 1,
     });
-    if (validate >= 0) {
+    if (validate !== null && validate >= 0) {
       return;
     }
     throw new Error('Invalid totp code');

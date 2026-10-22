@@ -1,4 +1,5 @@
 import { OauthRequest } from '../../domain/entity/oauth-request.entity';
+import { MFASchemaValueObject } from '../../domain/value-object/mfa-schema.value-object';
 export interface IOauthRequestCodePayload {
   userEmail: string;
   codeChallenge: string | null;
@@ -15,6 +16,7 @@ export interface ITokenFamilyRevoked {
 export const REDIS_SERVICE_PORT = Symbol('REDIS_SERVICE_PORT');
 export abstract class RedisServicePort {
   abstract saveAuthRequest(authRequest: OauthRequest): Promise<string>;
+
   abstract consumeOauthRequest(oauthRequestId: string): Promise<OauthRequest>;
   abstract consumeOauthCode(key: string): Promise<any>;
   abstract saveOauthAuthorizationCode(
@@ -35,4 +37,12 @@ export abstract class RedisServicePort {
   ): Promise<ITokenFamilyRevoked>;
   abstract setFailedLoginAttempt(email: string): Promise<void>;
   abstract getFailedLoginAttempt(email: string): Promise<number>;
+  abstract saveMFASchema(
+    mfaSchemaId: string,
+    mfaSchema: MFASchemaValueObject,
+  ): Promise<string>;
+  abstract consumeMFASchema(
+    mfaChallenge: string,
+  ): Promise<MFASchemaValueObject | null>;
+  abstract deleteMFASchema(mfaChallenge: string): Promise<void>;
 }
