@@ -1,34 +1,45 @@
 # [2.4.0](https://github.com/LuisFernando12/Authenticator/compare/v2.3.0...v2.4.0) (2026-10-20)
 
+### Features
+
+- **auth:** enhance AuthGuard to include user retrieval from repository ([addf53d](https://github.com/LuisFernando12/Authenticator/commit/addf53d335f74a5a78a1ff68e42367b40d771e5d))
+- **auth:** implement AuthGuard and user retrieval endpoint; add request decorator ([f41ff9c](https://github.com/LuisFernando12/Authenticator/commit/f41ff9c4eecebba48e18eb1e64a45ae0e94df1e0))
+- **auth:** improve token validation and user retrieval in AuthGuard ([4a18d78](https://github.com/LuisFernando12/Authenticator/commit/4a18d783aea6543e525ab3b763d293c258bbf588))
+- **user:** include user ID in the User object returned by findByEmail ([9af07e6](https://github.com/LuisFernando12/Authenticator/commit/9af07e6ea5a2a46443a2544f150f32e7ec7da34c))
+
+# [2.4.0-beta.4](https://github.com/LuisFernando12/Authenticator/compare/v2.4.0-beta.3...v2.4.0-beta.4) (2026-10-23)
+
+### Bug Fixes
+
+- **auth:** improve token validation for email verification and MFA routes ([3cc3484](https://github.com/LuisFernando12/Authenticator/commit/3cc3484ceeb491c28d6d32683c1e54ac9ce573ff))
+- **mfa:** correct oauthRequestId getter to return the proper value ([31d59a5](https://github.com/LuisFernando12/Authenticator/commit/31d59a52b0c9c83fe1b1888be3480d22103d67e5))
 
 ### Features
 
-* **auth:** enhance AuthGuard to include user retrieval from repository ([addf53d](https://github.com/LuisFernando12/Authenticator/commit/addf53d335f74a5a78a1ff68e42367b40d771e5d))
-* **auth:** implement AuthGuard and user retrieval endpoint; add request decorator ([f41ff9c](https://github.com/LuisFernando12/Authenticator/commit/f41ff9c4eecebba48e18eb1e64a45ae0e94df1e0))
-* **auth:** improve token validation and user retrieval in AuthGuard ([4a18d78](https://github.com/LuisFernando12/Authenticator/commit/4a18d783aea6543e525ab3b763d293c258bbf588))
-* **user:** include user ID in the User object returned by findByEmail ([9af07e6](https://github.com/LuisFernando12/Authenticator/commit/9af07e6ea5a2a46443a2544f150f32e7ec7da34c))
+- **mfa:** add MFA and TOTP entities to the test application configuration ([1911876](https://github.com/LuisFernando12/Authenticator/commit/19118767cd0c50e922072df1cae864b58864de5a))
+- **mfa:** add TOTP use cases and OAuth TOTP verification tests ([cc0732a](https://github.com/LuisFernando12/Authenticator/commit/cc0732a245bb7707990f4566705ad0aca69d61f4))
+- **mfa:** implement MFA token handling with Redis integration ([cd03147](https://github.com/LuisFernando12/Authenticator/commit/cd0314798141104278b525146e1760818e74a042))
+- **mfa:** implement TOTP functionality with MFA challenge handling ([ef6bdca](https://github.com/LuisFernando12/Authenticator/commit/ef6bdca8c9a4e7e8bdeff6449ba38d4ae1fd7341))
+- **mfa:** implement TOTP-based multi-factor authentication ([5ab75e9](https://github.com/LuisFernando12/Authenticator/commit/5ab75e9399b15c4c8a79818303c67d0c948ba703))
 
 # [2.4.0-beta.3](https://github.com/LuisFernando12/Authenticator/compare/v2.4.0-beta.2...v2.4.0-beta.3) (2026-09-10)
 
-
 ### Features
 
-* **auth:** improve token validation and user retrieval in AuthGuard ([4a18d78](https://github.com/LuisFernando12/Authenticator/commit/4a18d783aea6543e525ab3b763d293c258bbf588))
-* **user:** include user ID in the User object returned by findByEmail ([9af07e6](https://github.com/LuisFernando12/Authenticator/commit/9af07e6ea5a2a46443a2544f150f32e7ec7da34c))
+- **auth:** improve token validation and user retrieval in AuthGuard ([4a18d78](https://github.com/LuisFernando12/Authenticator/commit/4a18d783aea6543e525ab3b763d293c258bbf588))
+- **user:** include user ID in the User object returned by findByEmail ([9af07e6](https://github.com/LuisFernando12/Authenticator/commit/9af07e6ea5a2a46443a2544f150f32e7ec7da34c))
 
 # [2.4.0-beta.2](https://github.com/LuisFernando12/Authenticator/compare/v2.4.0-beta.1...v2.4.0-beta.2) (2026-09-10)
 
-
 ### Features
 
-* **auth:** enhance AuthGuard to include user retrieval from repository ([addf53d](https://github.com/LuisFernando12/Authenticator/commit/addf53d335f74a5a78a1ff68e42367b40d771e5d))
+- **auth:** enhance AuthGuard to include user retrieval from repository ([addf53d](https://github.com/LuisFernando12/Authenticator/commit/addf53d335f74a5a78a1ff68e42367b40d771e5d))
 
 # [2.4.0-beta.1](https://github.com/LuisFernando12/Authenticator/compare/v2.3.0...v2.4.0-beta.1) (2026-09-09)
 
-
 ### Features
 
-* **auth:** implement AuthGuard and user retrieval endpoint; add request decorator ([f41ff9c](https://github.com/LuisFernando12/Authenticator/commit/f41ff9c4eecebba48e18eb1e64a45ae0e94df1e0))
+- **auth:** implement AuthGuard and user retrieval endpoint; add request decorator ([f41ff9c](https://github.com/LuisFernando12/Authenticator/commit/f41ff9c4eecebba48e18eb1e64a45ae0e94df1e0))
 
 # [2.3.0-beta.5](https://github.com/LuisFernando12/Authenticator/compare/v2.3.0-beta.4...v2.3.0-beta.5) (2026-09-05)
 
