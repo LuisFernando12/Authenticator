@@ -4,6 +4,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientEntity } from '../../../src/client/infrastructure/persistence/entity/client.entity';
 import { ConsentEntity } from '../../../src/consent/infrastructure/persistence/entity/consent.entity';
+import { MFAEntity } from '../../../src/mfa/infrastructure/persistence/entity/mfa.entity';
+import { TOTPEntity } from '../../../src/mfa/infrastructure/persistence/entity/totp.entity';
 import { SessionEntity } from '../../../src/session/infrastructure/persistence/entity/session.entity';
 import { TokenEntity } from '../../../src/token/infrastructure/persistence/entity/token.entity';
 import { UserEntity } from '../../../src/user/infrastructure/persistence/entity/user.entity';
@@ -31,6 +33,8 @@ import { UserEntity } from '../../../src/user/infrastructure/persistence/entity/
             ClientEntity,
             ConsentEntity,
             SessionEntity,
+            MFAEntity,
+            TOTPEntity,
           ],
           synchronize: true,
         };
