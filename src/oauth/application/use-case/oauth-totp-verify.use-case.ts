@@ -54,6 +54,8 @@ export class OauthTOTPVerifyUseCase implements BaseUseCase<
     const totp = mfaDB.find((mfa) => mfa.type === 'TOTP').totp;
     this.totpPort.verifyTOTP(code, totp.secret);
 
+    await this.redisServicePort.deleteMFASchema(mfaSchemaId);
+
     const userDB = await this.userServicePort.findByEmail(mfaSchema.email);
     const oauthRequest =
       await this.redisServicePort.consumeOauthRequest(oauthRequestId);
@@ -74,7 +76,6 @@ export class OauthTOTPVerifyUseCase implements BaseUseCase<
         payloadOauthCodeRedis,
       ),
       this.consentServicePort.findOrCreateConsent(userDB.id, clientId, scope),
-      this.redisServicePort.deleteMFASchema(mfaSchemaId),
     ]);
     return MountUrlValueObject.mount(redirectUri, { code: oauthCode, state });
   }

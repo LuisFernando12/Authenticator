@@ -38,9 +38,13 @@ export class AuthGuard implements CanActivate {
       if (!decoded) {
         throw new UnauthorizedException('Invalid token');
       }
+      if (decoded.type === 'email_verification') {
+        throw new UnauthorizedException('Access unauthorized !');
+      }
       if (
-        decoded.type === 'mfa' &&
-        request.url !== '/api/auth/mfa/totp/verify'
+        (decoded.type === 'mfa' &&
+          request.url !== '/api/auth/mfa/totp/verify') ||
+        (decoded.type !== 'mfa' && request.url === '/api/auth/mfa/totp/verify')
       ) {
         throw new ForbiddenException('Access unauthorized !');
       }
