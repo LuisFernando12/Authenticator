@@ -3,7 +3,7 @@ import { TokenDomainError } from '../../domain/error/token-domain.error';
 import { TokenValueObject } from '../../domain/value-object/token.value-object';
 import { IGenerateToken } from '../interface/generate-token.interface';
 import { ConfigServicePort } from '../port/config-service.port';
-import { GenerateUUIDPort } from '../port/generate-uuid.port';
+import { GenerateJTIPort } from '../port/generate-jti.port';
 import { JwtServicePort } from '../port/jwt-service.port';
 import { RefreshTokenServicePort } from '../port/refresh-token-service.port';
 import { TokenRepositoryPort } from '../port/token-repository.port';
@@ -27,7 +27,7 @@ export class RefreshTokenUseCase implements BaseUseCase<
     private readonly configServicePort: ConfigServicePort,
     private readonly jwtServicePort: JwtServicePort,
     private readonly refreshTokenServicePort: RefreshTokenServicePort,
-    private readonly generateJtiPort: GenerateUUIDPort,
+    private readonly generateJtiPort: GenerateJTIPort,
     private readonly transactionPort: TransactionPort,
   ) {}
   async execute({

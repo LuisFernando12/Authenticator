@@ -13,8 +13,8 @@ import {
 } from '../../application/port/config-service.port';
 import {
   GENERATE_JTI_PORT,
-  GenerateUUIDPort,
-} from '../../application/port/generate-uuid.port';
+  GenerateJTIPort,
+} from '../../application/port/generate-jti.port';
 import {
   JWT_SERVICE_PORT,
   JwtServicePort,
@@ -45,7 +45,7 @@ import { RefreshTokenUseCase } from '../../application/use-case/refresh-token.us
 import { RevokeTokenUseCase } from '../../application/use-case/revoke-token.use-case';
 import { TokenIntrospectUseCase } from '../../application/use-case/token-introspect.use-case';
 import { ConfigServiceAdapter } from '../adapter/config-service.adapter';
-import { GenerateUUIDAdapter } from '../adapter/generate-uuid.adapter';
+import { GenerateJTIAdapter } from '../adapter/generate-jti.adapter';
 import { JwtServiceAdapter } from '../adapter/jwt-service.adapter';
 import { RefreshTokenServiceAdapter } from '../adapter/refresh-token-service.adapter';
 import { TokenRepositoryAdapter } from '../adapter/token-repository.adapter';
@@ -84,7 +84,7 @@ import { VerifyTokenUseCase } from './../../application/use-case/verify-token.us
     },
     {
       provide: GENERATE_JTI_PORT,
-      useFactory: (): GenerateUUIDPort => new GenerateUUIDAdapter(),
+      useFactory: (): GenerateJTIPort => new GenerateJTIAdapter(),
     },
     {
       provide: REFRESH_TOKEN_SERVICE_PORT,
@@ -149,7 +149,7 @@ import { VerifyTokenUseCase } from './../../application/use-case/verify-token.us
         configServicePort: ConfigServicePort,
         jwtServicePort: JwtServicePort,
         generateTokensServicePort: RefreshTokenServicePort,
-        generateJtiPort: GenerateUUIDPort,
+        generateJtiPort: GenerateJTIPort,
         transactionPort: TransactionPort,
       ) =>
         new GenerateTokenUseCase(
@@ -171,9 +171,11 @@ import { VerifyTokenUseCase } from './../../application/use-case/verify-token.us
     },
     {
       provide: GenerateMFATokenUseCase,
-      useFactory: (jwtServicePort: JwtServicePort) =>
-        new GenerateMFATokenUseCase(jwtServicePort),
-      inject: [JWT_SERVICE_PORT],
+      useFactory: (
+        jwtServicePort: JwtServicePort,
+        generateJTIPort: GenerateJTIPort,
+      ) => new GenerateMFATokenUseCase(jwtServicePort, generateJTIPort),
+      inject: [JWT_SERVICE_PORT, GENERATE_JTI_PORT],
     },
     {
       provide: RefreshTokenUseCase,
@@ -182,7 +184,7 @@ import { VerifyTokenUseCase } from './../../application/use-case/verify-token.us
         configServicePort: ConfigServicePort,
         jwtServicePort: JwtServicePort,
         refreshTokenServicePort: RefreshTokenServicePort,
-        generateJtiPort: GenerateUUIDPort,
+        generateJtiPort: GenerateJTIPort,
         transactionPort: TransactionPort,
       ) =>
         new RefreshTokenUseCase(

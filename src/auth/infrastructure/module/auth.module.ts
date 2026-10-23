@@ -10,13 +10,14 @@ import { ConfigService } from '@nestjs/config';
 import { AppConfigEnvService } from '../../../core/domain/service/app-config-env.service';
 import { RedisService } from '../../../core/domain/service/redis.service';
 
+import { REDIS_SERVICE_PORT as REDIS_SERVICE_CORE_PORT } from '@/core/domain/service/redis.service';
 import {
   MFA_REPOSITORY_PORT,
   MFARepositoryPort,
 } from '@/mfa/application/port/mfa-repository.port';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { AuthGuardModule } from '../../../core/infrastructure/module/auth-guard.module';
-import { RedisServiceImplement } from '../../../core/infrastructure/service/redis.service';
+import { RedisModule } from '../../../core/infrastructure/module/redis.module';
 import { EmailModule } from '../../../email/infrastructure/module/email.module';
 import { EmailQueue } from '../../../email/infrastructure/queue/email.queue';
 import { MFAModule } from '../../../mfa/infrastructure/module/mfa.module';
@@ -74,7 +75,14 @@ import { UserValidateCredentialsServiceAdapter } from '../adapter/user-validate-
 import { UserRepositoryAdapter } from './../adapter/user-repository.adapter';
 
 @Module({
-  imports: [TokenModule, UserModule, EmailModule, MFAModule, AuthGuardModule],
+  imports: [
+    TokenModule,
+    UserModule,
+    EmailModule,
+    MFAModule,
+    AuthGuardModule,
+    RedisModule,
+  ],
   controllers: [AuthController],
   providers: [
     {
@@ -82,12 +90,6 @@ import { UserRepositoryAdapter } from './../adapter/user-repository.adapter';
       useFactory: (configService: ConfigService) =>
         new AppConfigEnvService(configService),
       inject: [ConfigService],
-    },
-    {
-      provide: RedisService,
-      useFactory: (appConfigEnvService: AppConfigEnvService) =>
-        new RedisServiceImplement(appConfigEnvService),
-      inject: [AppConfigEnvService],
     },
     {
       provide: USER_VALIDATE_CREDENTIALS_SERVICE_PORT,
@@ -123,7 +125,7 @@ import { UserRepositoryAdapter } from './../adapter/user-repository.adapter';
       provide: REDIS_SERVICE_PORT,
       useFactory: (redisService: RedisService): RedisServicePort =>
         new RedisServiceAdapter(redisService),
-      inject: [RedisService],
+      inject: [REDIS_SERVICE_CORE_PORT],
     },
     {
       provide: GENERATE_OTP_SERVICE_PORT,

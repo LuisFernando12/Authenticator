@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppConfigEnvService } from '../../domain/service/app-config-env.service';
-import { RedisService } from '../../domain/service/redis.service';
+import { REDIS_SERVICE_PORT } from '../../domain/service/redis.service';
 import { RedisServiceImplement } from '../service/redis.service';
 import { AppConfigModule } from './app-config.module';
 
@@ -8,12 +8,12 @@ import { AppConfigModule } from './app-config.module';
   imports: [AppConfigModule],
   providers: [
     {
-      provide: RedisService,
+      provide: REDIS_SERVICE_PORT,
       useFactory: (appConfigEnvService: AppConfigEnvService) =>
         new RedisServiceImplement(appConfigEnvService),
       inject: [AppConfigEnvService],
     },
   ],
-  exports: [RedisService],
+  exports: [REDIS_SERVICE_PORT],
 })
 export class RedisModule {}

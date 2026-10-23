@@ -1,3 +1,4 @@
+export const REDIS_SERVICE_PORT = Symbol('REDIS_SERVICE_PORT');
 export abstract class RedisService {
   abstract onModuleInit();
   abstract onModuleDestroy();

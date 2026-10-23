@@ -10,7 +10,7 @@ export abstract class TokenServicePort {
   abstract generateToken(payload: IPayloadToken): Promise<AuthToken>;
   abstract generateMFAToken(
     payload: IPayloadToken & { type: 'mfa' },
-  ): Promise<{ mfa_access_token: string }>;
+  ): Promise<{ mfa_access_token: string; mfa_access_token_id: string }>;
   abstract verifyToken(token: string): Promise<VerifyTokenValueObject>;
   abstract generateEmailVerificationToken(
     payload: IPayloadToken,

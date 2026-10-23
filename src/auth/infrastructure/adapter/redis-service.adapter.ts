@@ -75,4 +75,25 @@ export class RedisServiceAdapter implements RedisServicePort {
       `failed-login-attempt-${email}`,
     );
   }
+  async saveMFATokenId(tokenId: string): Promise<string> {
+    const saveMFAAccessTokenId = await this.redisService.setOnRedis(
+      `mfa-access-token-${tokenId}`,
+      JSON.stringify({ mfaAccessTokenId: tokenId }),
+      240,
+    );
+    if (!saveMFAAccessTokenId) {
+      throw AuthDomainError.internalServerError('Failure to save code OTP');
+    }
+    return saveMFAAccessTokenId;
+  }
+  async consumeMFATokenId(tokenId: string): Promise<void> {
+    const mfaAccessTokenId = JSON.parse(
+      await this.redisService.getAndDeleteOnRedis(
+        `mfa-access-token-${tokenId}`,
+      ),
+    );
+    if (!mfaAccessTokenId) {
+      throw AuthDomainError.badRequest('Invalid code !');
+    }
+  }
 }

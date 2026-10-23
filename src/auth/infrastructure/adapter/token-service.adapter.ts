@@ -22,7 +22,7 @@ export class TokenServiceAdapter implements TokenServicePort {
   }
   async generateMFAToken(
     payload: IPayloadToken & { type: 'mfa' },
-  ): Promise<{ mfa_access_token: string }> {
+  ): Promise<{ mfa_access_token: string; mfa_access_token_id: string }> {
     return await this.tokenService.generateMFAToken(payload);
   }
   async verifyToken(token: string): Promise<VerifyTokenValueObject> {

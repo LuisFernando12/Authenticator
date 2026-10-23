@@ -1,6 +1,6 @@
-import { GenerateUUIDPort } from '@/token/application/port/generate-uuid.port';
+import { GenerateJTIPort } from '@/token/application/port/generate-jti.port';
 
-export class GenerateUUIDFake implements GenerateUUIDPort {
+export class GenerateUUIDFake implements GenerateJTIPort {
   generate(): string {
     return 'test-jti';
   }

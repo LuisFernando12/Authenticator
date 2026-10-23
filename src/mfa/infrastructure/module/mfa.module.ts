@@ -6,7 +6,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { TransactionPort } from '../../../core/application/port/transaction.port';
-import { RedisService } from '../../../core/domain/service/redis.service';
+import {
+  REDIS_SERVICE_PORT,
+  RedisService,
+} from '../../../core/domain/service/redis.service';
 import { AuthGuardModule } from '../../../core/infrastructure/module/auth-guard.module';
 import { RedisModule } from '../../../core/infrastructure/module/redis.module';
 import { TRANSACTION_PORT } from '../../../token/application/port/transaction.port';
@@ -69,7 +72,7 @@ import { TOTPRepositoryImpl } from '../persistence/repository/totp.repository';
         totpPort: TOTPPort,
         transactionPort: TransactionPort<MFARepositoryPort, TOTPRepositoryPort>,
       ) => new TOTPRegisterUseCase(redisService, totpPort, transactionPort),
-      inject: [RedisService, TOTP_PORT, TRANSACTION_PORT],
+      inject: [REDIS_SERVICE_PORT, TOTP_PORT, TRANSACTION_PORT],
     },
     {
       provide: TOTPGenerateQrCodeUseCase,
@@ -78,7 +81,12 @@ import { TOTPRepositoryImpl } from '../persistence/repository/totp.repository';
         totpPort: TOTPPort,
         mfaRepository: MFARepositoryPort,
       ) => new TOTPGenerateQrCodeUseCase(redisService, totpPort, mfaRepository),
-      inject: [RedisService, TOTP_PORT, MFA_REPOSITORY_PORT, TRANSACTION_PORT],
+      inject: [
+        REDIS_SERVICE_PORT,
+        TOTP_PORT,
+        MFA_REPOSITORY_PORT,
+        TRANSACTION_PORT,
+      ],
     },
     {
       provide: TOTPVerifyUseCase,

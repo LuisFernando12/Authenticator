@@ -93,6 +93,7 @@ export class ExchangeOauthCodeUseCase implements BaseUseCase<
         scope: codeRedis.scope,
         aud: clientId,
         iss: this.configService.serviceURL,
+        type: 'access',
       },
       consentDB.id,
     );

@@ -3,7 +3,7 @@ import { Token } from '../../domain/entity/token.entity';
 import { TokenValueObject } from '../../domain/value-object/token.value-object';
 import { IGenerateToken } from '../interface/generate-token.interface';
 import { ConfigServicePort } from '../port/config-service.port';
-import { GenerateUUIDPort } from '../port/generate-uuid.port';
+import { GenerateJTIPort } from '../port/generate-jti.port';
 import { JwtServicePort } from '../port/jwt-service.port';
 import { RefreshTokenServicePort } from '../port/refresh-token-service.port';
 import { TokenRepositoryPort } from '../port/token-repository.port';
@@ -27,7 +27,7 @@ export class GenerateTokenUseCase implements BaseUseCase<
     private readonly configServicePort: ConfigServicePort,
     private readonly jwtServicePort: JwtServicePort,
     private readonly refreshTokenServicePort: RefreshTokenServicePort,
-    private readonly generateUUIDPort: GenerateUUIDPort,
+    private readonly generateUUIDPort: GenerateJTIPort,
     private readonly transactionPort: TransactionPort,
   ) {}
   async execute({

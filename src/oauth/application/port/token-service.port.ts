@@ -7,6 +7,7 @@ export interface IPayloadToken {
   scope: string;
   aud: string;
   iss: string;
+  type: 'access';
 }
 
 export interface IGenerateTokenResponse {

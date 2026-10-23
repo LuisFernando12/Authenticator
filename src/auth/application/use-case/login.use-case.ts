@@ -69,12 +69,13 @@ export class LoginUseCase implements BaseUseCase<
       userDB.isVerifiedAccount(AuthFlow.login);
       const mfaDB = await this.mfaRepositoryPort.findByUserId(userDB.id);
       if (mfaDB.length > 0) {
-        const { mfa_access_token } =
+        const { mfa_access_token, mfa_access_token_id } =
           await this.tokenServicePort.generateMFAToken({
             sub: userDB.id,
             username: userDB.email,
             type: 'mfa',
           });
+        await this.redisServicePort.saveMFATokenId(mfa_access_token_id);
         return {
           mfa_access_token: mfa_access_token,
           mfa_required: true,

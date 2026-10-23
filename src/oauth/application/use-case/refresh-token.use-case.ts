@@ -71,6 +71,7 @@ export class RefreshTokenUseCase implements BaseUseCase<
       scope: scopes.join(' '),
       aud: clientId,
       iss: this.configServicePort.serviceURL,
+      type: 'access',
     };
     await this.redisServicePort.addTokenFamilyToReuseDetection({
       tokenFamilyId: refreshTokenDB.tokenFamilyId,
