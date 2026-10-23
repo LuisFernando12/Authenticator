@@ -7,4 +7,7 @@ export class GenerateIdServiceFake implements GenerateIdServicePort {
   generateOauthAuthorizationCode(): string {
     return 'test-oauth-authorization-code';
   }
+  generateMFAChallengeId(): string {
+    return 'test-mfa-challenge-id';
+  }
 }

@@ -16,6 +16,9 @@ describe('LoginUseCase', () => {
       oauthMock.consentServiceFake,
       oauthMock.generateIdServiceFake,
       oauthMock.securityEventFake,
+      { generateOTP: () => 123456 } as any,
+      { blockAccount: async () => undefined } as any,
+      { findByUserId: async () => [] } as any,
     );
   });
   const payload = {

@@ -15,6 +15,9 @@ describe('LoginUseCase', () => {
       authMock.configServiceFake,
       authMock.securityEventFake,
       authMock.redisServiceFake,
+      authMock.emailServiceFake,
+      authMock.generateOtpServiceFake,
+      { findByUserId: async () => [] } as any,
     );
   });
 
