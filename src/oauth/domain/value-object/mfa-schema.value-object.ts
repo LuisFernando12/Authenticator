@@ -17,7 +17,7 @@ export class MFASchemaValueObject {
     return this.mfaSchemaProps.email;
   }
   get oauthRequestId(): string {
-    return this.mfaSchemaProps.email;
+    return this.mfaSchemaProps.oauthRequestId;
   }
   validOauthRequestId(oauthRequestId: string) {
     if (oauthRequestId.trim() !== this.mfaSchemaProps.oauthRequestId.trim()) {
