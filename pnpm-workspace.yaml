@@ -1,7 +1,7 @@
 allowBuilds:
   '@nestjs/core': false
   '@scarf/scarf': false
-  bcrypt: false
+  bcrypt: true
   cpu-features: false
   msgpackr-extract: false
   protobufjs: false
