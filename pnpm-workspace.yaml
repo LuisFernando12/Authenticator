@@ -1,5 +1,6 @@
 allowBuilds:
   '@nestjs/core': false
+  '@parcel/watcher': false
   '@scarf/scarf': false
   bcrypt: true
   cpu-features: false
