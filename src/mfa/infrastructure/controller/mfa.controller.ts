@@ -73,6 +73,7 @@ export class MFAController {
       userId: request.user.sub,
       code: code,
       email: request.user.email,
+      jti: request.token.jti,
     });
     return response;
   }

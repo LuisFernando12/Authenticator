@@ -95,18 +95,21 @@ import { TOTPRepositoryImpl } from '../persistence/repository/totp.repository';
         mfaRepository: MFARepositoryPort,
         tokenServicePort: TokenServicePort,
         userRepositoryPort: UserRepositoryPort,
+        redisService: RedisService,
       ) =>
         new TOTPVerifyUseCase(
           totpPort,
           mfaRepository,
           tokenServicePort,
           userRepositoryPort,
+          redisService,
         ),
       inject: [
         TOTP_PORT,
         MFA_REPOSITORY_PORT,
         TOKEN_SERVICE_PORT,
         USER_REPOSITORY_PORT,
+        REDIS_SERVICE_PORT,
       ],
     },
   ],

@@ -144,7 +144,7 @@ export class RedisServiceAdapter implements RedisServicePort {
     }
     return saveMFASchemaOnRedis;
   }
-  async consumeMFASchema(
+  async getMFASchema(
     mfaSchemaId: string,
   ): Promise<MFASchemaValueObject | null> {
     const payloadMFASchema = await this.redisService.getOnRedis(

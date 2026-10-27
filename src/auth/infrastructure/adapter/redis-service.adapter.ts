@@ -86,14 +86,4 @@ export class RedisServiceAdapter implements RedisServicePort {
     }
     return saveMFAAccessTokenId;
   }
-  async consumeMFATokenId(tokenId: string): Promise<void> {
-    const mfaAccessTokenId = JSON.parse(
-      await this.redisService.getAndDeleteOnRedis(
-        `mfa-access-token-${tokenId}`,
-      ),
-    );
-    if (!mfaAccessTokenId) {
-      throw AuthDomainError.badRequest('Invalid code !');
-    }
-  }
 }

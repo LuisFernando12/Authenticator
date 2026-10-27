@@ -19,5 +19,4 @@ export abstract class RedisServicePort {
   abstract getFailedLoginAttempt(email: string): Promise<number>;
   abstract clearFailedLoginAttempt(email: string): Promise<void>;
   abstract saveMFATokenId(tokenId: string): Promise<string>;
-  abstract consumeMFATokenId(tokenId: string): Promise<void>;
 }

@@ -33,10 +33,7 @@ export class RedisServiceImplement extends Redis implements RedisService {
     await this.del(key);
   }
   async getAndDeleteOnRedis(key: string): Promise<string | null> {
-    const value = await this.get(key);
-    if (value) {
-      await this.del(key);
-    }
+    const value = await this.getdel(key);
     return value;
   }
 }

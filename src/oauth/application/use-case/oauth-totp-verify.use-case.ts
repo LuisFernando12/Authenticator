@@ -43,7 +43,7 @@ export class OauthTOTPVerifyUseCase implements BaseUseCase<
   async execute({ code, queryOauth }: ITOTPVerify): Promise<any> {
     const { oauthRequestId, clientId, scope, redirectUri, state, mfaSchemaId } =
       queryOauth;
-    const mfaSchema = await this.redisServicePort.consumeMFASchema(mfaSchemaId);
+    const mfaSchema = await this.redisServicePort.getMFASchema(mfaSchemaId);
     mfaSchema.validOauthRequestId(oauthRequestId);
     const mfaDB = await this.mfaRepository.findByUserId(mfaSchema.userId);
 
@@ -54,12 +54,12 @@ export class OauthTOTPVerifyUseCase implements BaseUseCase<
     const totp = mfaDB.find((mfa) => mfa.type === 'TOTP').totp;
     this.totpPort.verifyTOTP(code, totp.secret);
 
-    await this.redisServicePort.deleteMFASchema(mfaSchemaId);
-
-    const userDB = await this.userServicePort.findByEmail(mfaSchema.email);
     const oauthRequest =
       await this.redisServicePort.consumeOauthRequest(oauthRequestId);
     oauthRequest.requestMatch(queryOauth);
+    await this.redisServicePort.deleteMFASchema(mfaSchemaId);
+
+    const userDB = await this.userServicePort.findByEmail(mfaSchema.email);
 
     const payloadOauthCodeRedis = {
       userEmail: mfaSchema.email,
@@ -70,6 +70,7 @@ export class OauthTOTPVerifyUseCase implements BaseUseCase<
 
     const oauthCode =
       this.generateIdServicePort.generateOauthAuthorizationCode();
+
     await Promise.all([
       this.redisServicePort.saveOauthAuthorizationCode(
         oauthCode,

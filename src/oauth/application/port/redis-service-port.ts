@@ -41,7 +41,7 @@ export abstract class RedisServicePort {
     mfaSchemaId: string,
     mfaSchema: MFASchemaValueObject,
   ): Promise<string>;
-  abstract consumeMFASchema(
+  abstract getMFASchema(
     mfaChallenge: string,
   ): Promise<MFASchemaValueObject | null>;
   abstract deleteMFASchema(mfaChallenge: string): Promise<void>;

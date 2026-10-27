@@ -48,6 +48,7 @@ export class AuthGuard implements CanActivate {
       }
       if (decoded.type === 'mfa') {
         await this.validateMFAAccessToken(decoded, request.url);
+        request['token'] = { jti: decoded.jti };
       }
       if (decoded.type === 'access') {
         await this.validateAccessToken(decoded, request.url);
@@ -58,12 +59,13 @@ export class AuthGuard implements CanActivate {
         throw new UnauthorizedException('Unauthorized');
       }
 
-      request['user'] = {
+      const user = {
         name: userDB.name,
         sub: userDB.id,
         email: userDB.email,
         createdAt: userDB.createdAt,
       };
+      request['user'] = user;
       return true;
     } catch (error) {
       if (
@@ -88,7 +90,7 @@ export class AuthGuard implements CanActivate {
     if (url !== '/api/auth/mfa/totp/verify') {
       throw new ForbiddenException('Access unauthorized !');
     }
-    const hasMFATokenId = await this.redisServicePort.getAndDeleteOnRedis(
+    const hasMFATokenId = await this.redisServicePort.getOnRedis(
       `mfa-access-token-${decoded.jti}`,
     );
     if (!hasMFATokenId) {

@@ -17,21 +17,22 @@
     "bullmq",
     "conta",
     "Desbloqueada",
+    "getdel",
     "Impls",
+    "ITOTP",
     "jwt",
     "loglevel",
     "mfas",
     "nestjs",
     "Oauth",
+    "otpauth",
     "PKCE",
+    "qrcode",
+    "Qrcode",
     "Recuperação",
     "redis",
     "senha",
-    "typeorm",
-    "ITOTP",
-    "otpauth",
     "TOTP",
-    "qrcode",
-    "Qrcode"
+    "typeorm"
   ]
 }

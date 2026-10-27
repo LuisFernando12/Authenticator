@@ -8,6 +8,9 @@ export type RequestType = RequestExpress & {
     username: string;
     createdAt: Date;
   };
+  token?: {
+    jti: string;
+  };
 };
 export const Request = createParamDecorator<RequestType>(
   (_: unknown, ctx: ExecutionContext) => {

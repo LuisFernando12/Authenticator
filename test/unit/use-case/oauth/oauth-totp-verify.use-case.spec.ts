@@ -22,7 +22,7 @@ describe('OauthTOTPVerifyUseCase', () => {
   let mfaRepository: { findByUserId: jest.Mock };
   let userService: { findByEmail: jest.Mock };
   let redis: {
-    consumeMFASchema: jest.Mock;
+    getMFASchema: jest.Mock;
     consumeOauthRequest: jest.Mock;
     saveOauthAuthorizationCode: jest.Mock;
     deleteMFASchema: jest.Mock;
@@ -48,7 +48,7 @@ describe('OauthTOTPVerifyUseCase', () => {
         .mockResolvedValue({ id: 'user-1', email: 'a@example.com' }),
     };
     redis = {
-      consumeMFASchema: jest.fn().mockResolvedValue(
+      getMFASchema: jest.fn().mockResolvedValue(
         MFASchemaValueObject.create({
           userId: 'user-1',
           email: 'a@example.com',
@@ -108,7 +108,7 @@ describe('OauthTOTPVerifyUseCase', () => {
   });
 
   it('rejects a schema associated with another OAuth request', async () => {
-    redis.consumeMFASchema.mockResolvedValue(
+    redis.getMFASchema.mockResolvedValue(
       MFASchemaValueObject.create({
         userId: 'user-1',
         email: 'a@example.com',
