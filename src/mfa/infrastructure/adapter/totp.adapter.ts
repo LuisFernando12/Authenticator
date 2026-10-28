@@ -2,6 +2,7 @@ import { randomBytes } from 'node:crypto';
 import * as OTPAuth from 'otpauth';
 import * as QRCode from 'qrcode';
 import { TOTPPort } from '../../application/port/totp.port';
+import { MFAError } from '../../domain/error/mfa.error';
 export class TOTPAdapter implements TOTPPort {
   generateSecret(): string {
     return randomBytes(64).toString('hex');
@@ -39,6 +40,6 @@ export class TOTPAdapter implements TOTPPort {
     if (validate !== null && validate >= 0) {
       return;
     }
-    throw new Error('Invalid totp code');
+    throw MFAError.unauthorizedMFA('Invalid totp code');
   }
 }

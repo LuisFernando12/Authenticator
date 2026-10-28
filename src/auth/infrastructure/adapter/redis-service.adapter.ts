@@ -46,10 +46,22 @@ export class RedisServiceAdapter implements RedisServicePort {
     return codeRedis;
   }
   async clearResetPasswordCodeOTP(code: number): Promise<void> {
-    return await this.redisService.deleteFromRedis(`reset-password-${code}`);
+    const deleted = await this.redisService.deleteFromRedis(
+      `reset-password-${code}`,
+    );
+    if (deleted === 0)
+      throw AuthDomainError.internalServerError(
+        'Failed to clear reset password code',
+      );
   }
   async clearUnblockAccountCodeOTP(code: number): Promise<void> {
-    return await this.redisService.deleteFromRedis(`unblock-account-${code}`);
+    const deleted = await this.redisService.deleteFromRedis(
+      `unblock-account-${code}`,
+    );
+    if (deleted === 0)
+      throw AuthDomainError.internalServerError(
+        'Failed to clear unblock account code',
+      );
   }
   async setFailedLoginAttempt(email: string): Promise<void> {
     const failedLoginAttempt = await this.getFailedLoginAttempt(email);
@@ -71,9 +83,13 @@ export class RedisServiceAdapter implements RedisServicePort {
     return Number(failedLoginAttempt || 0);
   }
   async clearFailedLoginAttempt(email: string): Promise<void> {
-    return await this.redisService.deleteFromRedis(
+    const deleted = await this.redisService.deleteFromRedis(
       `failed-login-attempt-${email}`,
     );
+    if (deleted === 0)
+      throw AuthDomainError.internalServerError(
+        'Failure to clear failed login attempt',
+      );
   }
   async saveMFATokenId(tokenId: string): Promise<string> {
     const saveMFAAccessTokenId = await this.redisService.setOnRedis(

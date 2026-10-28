@@ -29,8 +29,8 @@ export class RedisServiceImplement extends Redis implements RedisService {
     return this.get(key);
   }
 
-  async deleteFromRedis(key: string): Promise<void> {
-    await this.del(key);
+  async deleteFromRedis(key: string): Promise<number> {
+    return await this.del(key);
   }
   async getAndDeleteOnRedis(key: string): Promise<string | null> {
     const value = await this.getdel(key);

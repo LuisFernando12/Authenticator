@@ -1,6 +1,7 @@
 import { UserRepositoryPort } from '../../../core/application/port/user-repository.port';
 import { BaseUseCase } from '../../../core/application/use-case/base.use-case';
 import { RedisService } from '../../../core/domain/service/redis.service';
+import { MFAError } from '../../domain/error/mfa.error';
 
 import { MFARepositoryPort } from '../port/mfa-repository.port';
 import { TokenServicePort } from '../port/token-service.port';
@@ -37,7 +38,14 @@ export class TOTPVerifyUseCase implements BaseUseCase<
     this.totpPort.verifyTOTP(code, totp.secret);
     const userDB = await this.userRepositoryPort.findByEmail(email);
 
-    await this.redisService.deleteFromRedis(`mfa-access-token-${jti}`);
+    const consumedJTI = await this.redisService.deleteFromRedis(
+      `mfa-access-token-${jti}`,
+    );
+    if (consumedJTI === 0) {
+      throw MFAError.unauthorizedMFA(
+        'MFA challenge already consumed or expired !',
+      );
+    }
 
     return await this.tokenServicePort.generateToken({
       payload: {

@@ -83,6 +83,15 @@ export class MFAError extends Error {
       HttpStatus.BAD_REQUEST,
     );
   }
+  static unauthorizedMFA(description?: string): MFAError {
+    return new MFAError(
+      {
+        error: 'unauthorized_mfa',
+        message: description || 'The provided MFA code is invalid or expired.',
+      },
+      HttpStatus.UNAUTHORIZED,
+    );
+  }
   static internalServerError(description?: string): MFAError {
     return new MFAError(
       {

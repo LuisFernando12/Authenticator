@@ -8,6 +8,6 @@ export abstract class RedisService {
     expireInSeconds: number,
   ): Promise<string>;
   abstract getOnRedis(key: string): Promise<string | null>;
-  abstract deleteFromRedis(key: string): Promise<void>;
+  abstract deleteFromRedis(key: string): Promise<number>;
   abstract getAndDeleteOnRedis(key: string): Promise<string | null>;
 }
